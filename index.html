@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Takeed Academy — ISO/IEC 27001:2022 Lead Implementer · Assessment Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFFFFF; --bg2:#FAFAF8; --bg3:#F4F4F1; --ink:#121212; --ink2:#3A3A38; --muted:#76766F; --muted2:#9A9A92;
+  --line:#EAEAE5; --line2:#DCDCD5; --black:#111110; --paper:#FCFCFA;
+  --gold:#B0863C; --goldbg:#F7F1E4; --ok:#15734B; --okbg:#EAF4EE; --no:#A8323F; --nobg:#FBEBED; --flag:#B08400; --flagbg:#FAF2DA;
+  --r:13px; --rs:9px; --shadow:0 1px 2px rgba(20,20,20,.04),0 8px 30px rgba(20,20,20,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:'Inter',system-ui,Arial,sans-serif;color:var(--ink);background:var(--bg2);min-height:100vh;-webkit-font-smoothing:antialiased}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+.hidden{display:none!important}
+button{font-family:inherit}
+::selection{background:#111;color:#fff}
+
+/* micro-label */
+.ml{font-size:10.5px;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted);font-weight:700}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;border-radius:var(--rs);
+  padding:11px 18px;cursor:pointer;border:1px solid var(--line2);background:#fff;color:var(--ink);transition:.15s;white-space:nowrap}
+.btn:hover{border-color:var(--ink);}
+.btn-dark{background:var(--black);color:#fff;border-color:var(--black)}
+.btn-dark:hover{background:#000}
+.btn-dark:disabled{opacity:.35;cursor:not-allowed;background:var(--black)}
+.btn-sm{padding:8px 13px;font-size:12.5px}
+.btn-ghost{border-color:transparent;background:transparent;color:var(--muted)}
+.btn-ghost:hover{color:var(--ink);border-color:transparent}
+
+/* ===== LOGIN (PECB-style) ===== */
+#login{position:fixed;inset:0;z-index:200;display:grid;grid-template-columns:1.05fr .95fr;background:var(--bg)}
+#login .left{background:var(--black);color:#fff;padding:56px 60px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#login .left:after{content:"";position:absolute;right:-180px;bottom:-180px;width:460px;height:460px;border-radius:50%;border:1px solid rgba(255,255,255,.07)}
+#login .left:before{content:"";position:absolute;right:-90px;bottom:-90px;width:300px;height:300px;border-radius:50%;border:1px solid rgba(255,255,255,.06)}
+#login .left .brandw{display:flex;align-items:center;gap:13px}
+#login .left .brandw img{height:42px;filter:none}
+#login .left .brandw b{font-size:15px;font-weight:700;letter-spacing:.3px}
+#login .left .brandw span{display:block;font-size:10px;color:#9A9A92;letter-spacing:1.6px;text-transform:uppercase;font-weight:600}
+#login .left .mid{max-width:420px}
+#login .left .mid .tag{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:#B0863C;font-weight:700}
+#login .left .mid h2{font-size:33px;font-weight:800;line-height:1.18;margin:16px 0 14px;letter-spacing:-.5px}
+#login .left .mid p{font-size:14px;color:#B6B6AE;line-height:1.7;font-weight:400}
+#login .left .feat{display:flex;flex-direction:column;gap:11px;margin-top:26px}
+#login .left .feat div{display:flex;align-items:center;gap:11px;font-size:13px;color:#D6D6CE;font-weight:500}
+#login .left .feat .dot{width:5px;height:5px;border-radius:50%;background:#B0863C;flex-shrink:0}
+#login .left .foot{font-size:11px;color:#75756E;letter-spacing:.3px}
+#login .right{display:grid;place-items:center;padding:40px}
+.loginCard{width:100%;max-width:380px}
+.loginCard h1{font-size:24px;font-weight:800;margin:0 0 5px;letter-spacing:-.4px}
+.loginCard .s{font-size:13px;color:var(--muted);margin:0 0 30px;font-weight:400}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--ink2);font-weight:700;margin-bottom:8px}
+.field .ip{position:relative}
+.field input{width:100%;font-family:inherit;font-size:14.5px;font-weight:500;color:var(--ink);background:#fff;border:1px solid var(--line2);border-radius:var(--rs);padding:13px 15px;outline:none;transition:.15s}
+.field input:focus{border-color:var(--ink);box-shadow:0 0 0 3px rgba(17,17,16,.06)}
+.field .tg{position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:10.5px;font-weight:700;letter-spacing:.5px;color:var(--muted);background:var(--bg3);border:1px solid var(--line);border-radius:7px;padding:6px 10px;cursor:pointer;text-transform:uppercase}
+.field .tg:hover{color:var(--ink)}
+.loginCard .signbtn{width:100%;justify-content:center;padding:14px;font-size:14.5px;margin-top:6px}
+.loginErr{min-height:18px;margin-top:12px;font-size:12.5px;color:var(--no);font-weight:600;opacity:0;transition:.15s}
+.loginErr.show{opacity:1}
+.loginCard .hint{margin-top:24px;padding-top:18px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted2);text-align:center;line-height:1.7}
+
+/* ===== Top bar ===== */
+.topbar{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.topbar .row{display:flex;align-items:center;gap:16px;padding:13px 0;min-height:62px}
+.brand{display:flex;align-items:center;gap:12px;cursor:pointer}
+.brand img{height:38px}
+.brand .bd b{font-size:14px;font-weight:700;letter-spacing:.2px;display:block;line-height:1.1}
+.brand .bd span{font-size:9.5px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;font-weight:600}
+.brand .sep{width:1px;height:26px;background:var(--line2);margin:0 2px}
+.brand .crumb{font-size:12.5px;color:var(--muted);font-weight:500}
+.tabs{display:flex;gap:4px;margin-left:8px}
+.tab{font-size:13px;font-weight:600;color:var(--muted);padding:8px 14px;border-radius:8px;cursor:pointer;border:1px solid transparent}
+.tab:hover{color:var(--ink);background:var(--bg3)}
+.tab.active{color:var(--ink);background:var(--ink);color:#fff}
+.spacer{flex:1}
+.user{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--ink2);font-weight:600;border:1px solid var(--line2);border-radius:999px;padding:5px 7px 5px 13px}
+.user .av{width:26px;height:26px;border-radius:50%;background:var(--black);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:800}
+.user .so{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);cursor:pointer;border-left:1px solid var(--line);padding-left:9px;font-weight:700}
+.user .so:hover{color:var(--no)}
+
+/* ===== Dashboard ===== */
+.page{padding:34px 0 70px}
+.phead{margin-bottom:24px}
+.phead h1{font-size:27px;font-weight:800;letter-spacing:-.5px;margin:6px 0 4px}
+.phead p{font-size:14px;color:var(--muted);margin:0;font-weight:400}
+
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:26px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 16px}
+.kpi .k{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:700}
+.kpi .v{font-size:30px;font-weight:800;letter-spacing:-1px;margin-top:8px;line-height:1}
+.kpi .v small{font-size:15px;color:var(--muted2);font-weight:700}
+.kpi .sub{font-size:11.5px;color:var(--muted);margin-top:6px;font-weight:500}
+.kpi.dark{background:var(--black);color:#fff;border-color:var(--black)}
+.kpi.dark .k{color:#9A9A92}.kpi.dark .sub{color:#B0B0A8}
+
+.sectlbl{display:flex;align-items:center;gap:13px;margin:30px 0 16px}
+.sectlbl h3{margin:0;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.sectlbl .ln{flex:1;height:1px;background:var(--line)}
+.sectlbl .opt{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);font-weight:600;cursor:pointer;user-select:none}
+.sectlbl .sw{width:34px;height:19px;border-radius:999px;background:var(--line2);position:relative;transition:.15s}
+.sectlbl .sw.on{background:var(--ink)}
+.sectlbl .sw:after{content:"";position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:#fff;transition:.15s}
+.sectlbl .sw.on:after{left:17px}
+
+.examgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.examcard{position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:22px 22px 18px;transition:.15s}
+.examcard:hover{box-shadow:var(--shadow);border-color:var(--line2)}
+.examcard .hl{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.examcard .no{font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:700}
+.examcard h3{font-size:18px;font-weight:800;letter-spacing:-.3px;margin:6px 0 5px}
+.examcard .cov{font-size:12.5px;color:var(--muted);font-weight:500;line-height:1.5;min-height:36px}
+.statusdot{font-size:11px;font-weight:700;padding:5px 11px;border-radius:999px;white-space:nowrap}
+.statusdot.new{background:var(--bg3);color:var(--muted)}
+.statusdot.pass{background:var(--okbg);color:var(--ok)}
+.statusdot.rev{background:var(--nobg);color:var(--no)}
+.examcard .scoreline{display:flex;align-items:center;gap:16px;margin:14px 0 4px;padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.examcard .scoreline .b{display:flex;flex-direction:column}
+.examcard .scoreline .b .kk{font-size:9.5px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);font-weight:700}
+.examcard .scoreline .b .vv{font-size:17px;font-weight:800;margin-top:2px}
+.examcard .meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}
+.tag{font-size:10.5px;font-weight:600;color:var(--ink2);border:1px solid var(--line2);border-radius:7px;padding:4px 9px;background:var(--paper)}
+.examcard .acts{display:flex;gap:9px;margin-top:16px}
+
+/* progress ring */
+.ring{--p:0;--c:var(--ink);width:var(--sz,128px);height:var(--sz,128px);border-radius:50%;
+  background:conic-gradient(var(--c) calc(var(--p)*1%), var(--bg3) 0);display:grid;place-items:center;flex-shrink:0}
+.ring .in{width:calc(var(--sz,128px) - 22px);height:calc(var(--sz,128px) - 22px);background:#fff;border-radius:50%;display:grid;place-items:center;text-align:center}
+.ring .in .pc{font-size:27px;font-weight:800;letter-spacing:-1px;line-height:1}
+.ring .in .lb{font-size:9.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-top:3px}
+
+/* bars (domain mastery) */
+.bars{display:flex;flex-direction:column;gap:13px}
+.barrow{display:grid;grid-template-columns:1fr auto;gap:10px 14px;align-items:center}
+.barrow .nm{font-size:12.5px;font-weight:600;color:var(--ink2)}
+.barrow .val{font-size:12px;font-weight:700;color:var(--ink);white-space:nowrap}
+.barrow .val small{color:var(--muted2);font-weight:600}
+.barrow .track{grid-column:1/3;height:7px;border-radius:999px;background:var(--bg3);overflow:hidden;margin-top:-4px}
+.barrow .fill{height:100%;border-radius:999px;background:var(--ink);transition:width .5s}
+.barrow .fill.ok{background:var(--ok)} .barrow .fill.no{background:var(--no)} .barrow .fill.mid{background:var(--gold)}
+
+.panel{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:22px}
+.panel h4{margin:0 0 16px;font-size:14px;font-weight:800;letter-spacing:-.2px}
+.grid2{display:grid;grid-template-columns:340px 1fr;gap:16px}
+.reco{display:flex;flex-direction:column;gap:9px}
+.reco .item{display:flex;gap:11px;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);border-radius:var(--rs);background:var(--paper)}
+.reco .item .ic{width:22px;height:22px;border-radius:6px;display:grid;place-items:center;font-size:12px;font-weight:800;flex-shrink:0;color:#fff}
+.reco .item .tx{font-size:12.5px;color:var(--ink2);line-height:1.5;font-weight:500}
+.reco .item .tx b{color:var(--ink);font-weight:700}
+.empty{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty .big{font-size:15px;font-weight:700;color:var(--ink2);margin-bottom:6px}
+.empty .sm{font-size:13px;color:var(--muted);font-weight:400}
+
+/* ===== Exam runner ===== */
+.exambar{position:sticky;top:0;z-index:60;background:#fff;border-bottom:1px solid var(--line)}
+.exambar .row{display:flex;align-items:center;gap:16px;padding:11px 0;min-height:60px}
+.exambar .nm{font-size:14px;font-weight:800;letter-spacing:-.2px}
+.exambar .nm small{display:block;font-size:10.5px;color:var(--muted);font-weight:600;letter-spacing:.3px;text-transform:none;margin-top:1px}
+.modechip{font-size:10.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:5px 11px;border-radius:999px;border:1px solid var(--line2);color:var(--ink2)}
+.modechip.practice{background:var(--goldbg);border-color:transparent;color:var(--gold)}
+.timer{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;color:var(--ink)}
+.timer .dotpulse{width:7px;height:7px;border-radius:50%;background:var(--ok);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+.examlayout{display:grid;grid-template-columns:1fr 312px;gap:26px;padding:30px 0 70px;align-items:start}
+.qpanel{min-height:380px}
+.qprog{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.qprog .qx{font-size:12.5px;color:var(--muted);font-weight:600}
+.qprog .qx b{color:var(--ink);font-weight:800}
+.flagbtn{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--muted);border:1px solid var(--line2);border-radius:999px;padding:7px 13px;cursor:pointer;transition:.15s}
+.flagbtn:hover{border-color:var(--flag);color:var(--flag)}
+.flagbtn.on{background:var(--flagbg);border-color:transparent;color:var(--flag)}
+.qcard{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:30px 32px}
+.qdomain{font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:12px}
+.qstem{font-size:19px;font-weight:700;line-height:1.5;letter-spacing:-.2px;margin:0 0 8px}
+.qhint{font-size:12px;color:var(--muted);font-weight:500;margin:0 0 20px}
+.eq{display:inline-flex;align-items:center;gap:10px;margin:0 0 20px;padding:11px 15px;border-radius:var(--rs);background:var(--goldbg)}
+.eq .lb{font-size:9px;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold);font-weight:800}
+.eq .ex{font-size:15px;font-weight:700}.eq .ex .op{color:var(--muted);margin:0 5px}.eq .ex .r{color:var(--gold)}
+.opts{display:flex;flex-direction:column;gap:11px}
+.opt{display:flex;align-items:center;gap:14px;padding:15px 17px;border-radius:var(--rs);border:1px solid var(--line2);background:#fff;cursor:pointer;transition:.13s;user-select:none}
+.opt:hover{border-color:var(--ink);background:var(--paper)}
+.opt .mk{flex-shrink:0;width:26px;height:26px;display:grid;place-items:center;border:1.6px solid var(--muted2);font-size:12.5px;font-weight:800;color:var(--muted);transition:.13s}
+.opt.single .mk{border-radius:50%}.opt.multi .mk{border-radius:7px}
+.opt .tx{font-size:14.5px;font-weight:500;line-height:1.45}
+.opt.sel{border-color:var(--ink);background:#fff;box-shadow:inset 0 0 0 1px var(--ink)}
+.opt.sel .mk{border-color:var(--ink);background:var(--ink);color:#fff}
+.opt.correct{border-color:var(--ok);background:var(--okbg)}.opt.correct .mk{border-color:var(--ok);background:var(--ok);color:#fff}
+.opt.wrong{border-color:var(--no);background:var(--nobg)}.opt.wrong .mk{border-color:var(--no);background:var(--no);color:#fff}
+.opt.locked{cursor:default}
+.opt .badge{margin-left:auto;font-size:9.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase}
+.opt .badge.c{color:var(--ok)}.opt .badge.w{color:var(--no)}
+.fb{margin-top:18px;padding:15px 17px;border-radius:var(--rs);border:1px solid var(--line);background:var(--paper)}
+.fb .h{font-size:10px;letter-spacing:1.4px;text-transform:uppercase;font-weight:800;margin-bottom:5px}
+.fb.ok .h{color:var(--ok)}.fb.no .h{color:var(--no)}
+.fb p{margin:0;font-size:13px;color:var(--ink2);line-height:1.6;font-weight:400}
+.qnav{display:flex;gap:11px;margin-top:22px}
+.qnav .btn{flex:1;justify-content:center}
+
+/* sidebar */
+.sidecard{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px;position:sticky;top:84px}
+.sidecard h5{margin:0 0 14px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:700}
+.navgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.navcell{aspect-ratio:1;border-radius:8px;border:1px solid var(--line2);background:#fff;display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--ink2);cursor:pointer;position:relative;transition:.12s}
+.navcell:hover{border-color:var(--ink)}
+.navcell.answered{background:var(--ink);color:#fff;border-color:var(--ink)}
+.navcell.current{box-shadow:0 0 0 2px var(--gold);border-color:var(--gold)}
+.navcell.flagged:after{content:"";position:absolute;top:-3px;right:-3px;width:9px;height:9px;border-radius:50%;background:var(--flag);border:1.5px solid #fff}
+.navcell.r-correct{background:var(--ok);color:#fff;border-color:var(--ok)}
+.navcell.r-wrong{background:var(--no);color:#fff;border-color:var(--no)}
+.legend{display:flex;flex-direction:column;gap:8px;margin:16px 0;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.legend .lg{display:flex;align-items:center;gap:9px;font-size:11.5px;color:var(--muted);font-weight:500}
+.legend .sq{width:14px;height:14px;border-radius:4px;border:1px solid var(--line2)}
+.legend .sq.a{background:var(--ink);border-color:var(--ink)}
+.legend .sq.f{background:#fff;position:relative}.legend .sq.f:after{content:"";position:absolute;top:-2px;right:-2px;width:7px;height:7px;border-radius:50%;background:var(--flag);border:1px solid #fff}
+.sideprog{font-size:12.5px;color:var(--muted);font-weight:600;margin-bottom:13px}
+.sideprog b{color:var(--ink);font-weight:800}
+.sidecard .btn{width:100%;justify-content:center;margin-top:9px}
+
+/* ===== Results / Review dashboard ===== */
+.resulthero{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px;display:grid;grid-template-columns:auto 1fr auto;gap:26px;align-items:center;margin-bottom:18px}
+.resulthero .meta h2{margin:0 0 5px;font-size:21px;font-weight:800;letter-spacing:-.3px}
+.resulthero .meta p{margin:0;font-size:13px;color:var(--muted);font-weight:400;line-height:1.6}
+.resulthero .stat{display:flex;gap:26px;margin-top:14px}
+.resulthero .stat .b .kk{font-size:9.5px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);font-weight:700}
+.resulthero .stat .b .vv{font-size:19px;font-weight:800;margin-top:3px}
+.stamp{font-size:15px;font-weight:900;letter-spacing:1.5px;padding:14px 26px;border-radius:var(--rs);text-align:center}
+.stamp.pass{background:var(--okbg);color:var(--ok)} .stamp.rev{background:var(--nobg);color:var(--no)}
+.filterbar{display:flex;gap:8px;margin:22px 0 14px;align-items:center}
+.fbtn{font-size:12.5px;font-weight:600;color:var(--muted);padding:8px 14px;border-radius:8px;border:1px solid var(--line2);cursor:pointer;background:#fff}
+.fbtn.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.rev-q{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:22px 24px;margin-bottom:13px}
+.rev-q .top{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+.rev-q .qnum{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase}
+.rev-q .qnum.c{color:var(--ok)}.rev-q .qnum.w{color:var(--no)}
+.rev-q .stem{font-size:15px;font-weight:600;line-height:1.5;margin:0 0 14px}
+.rev-q .o{display:flex;align-items:center;gap:11px;padding:11px 14px;border-radius:8px;border:1px solid var(--line);margin-bottom:7px;font-size:13.5px;font-weight:500}
+.rev-q .o .m{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:800;border:1.5px solid var(--line2);color:var(--muted);flex-shrink:0}
+.rev-q .o.multi .m{border-radius:6px}
+.rev-q .o.correct{border-color:var(--ok);background:var(--okbg)}.rev-q .o.correct .m{background:var(--ok);border-color:var(--ok);color:#fff}
+.rev-q .o.wrong{border-color:var(--no);background:var(--nobg)}.rev-q .o.wrong .m{background:var(--no);border-color:var(--no);color:#fff}
+.rev-q .o .bdg{margin-left:auto;font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase}
+.rev-q .o.correct .bdg{color:var(--ok)}.rev-q .o.wrong .bdg{color:var(--no)}
+.rev-q .rat{margin-top:12px;padding:13px 15px;border-left:2px solid var(--gold);background:var(--goldbg);border-radius:0 8px 8px 0;font-size:12.5px;color:var(--ink2);line-height:1.6}
+.rev-q .rat b{font-weight:800}
+
+/* modal */
+.modal-ov{position:fixed;inset:0;z-index:120;background:rgba(18,18,18,.45);display:grid;place-items:center;padding:24px}
+.modal{background:#fff;border-radius:16px;max-width:440px;width:100%;padding:28px 28px 24px;box-shadow:0 30px 80px rgba(0,0,0,.3)}
+.modal h3{margin:0 0 6px;font-size:19px;font-weight:800;letter-spacing:-.3px}
+.modal p{margin:0 0 18px;font-size:13.5px;color:var(--muted);line-height:1.6;font-weight:400}
+.modal .sm{display:flex;gap:20px;margin:18px 0;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.modal .sm .b .kk{font-size:9.5px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);font-weight:700}
+.modal .sm .b .vv{font-size:20px;font-weight:800;margin-top:3px}
+.modal .acts{display:flex;gap:10px;justify-content:flex-end}
+.warn{font-size:12.5px;color:var(--gold);font-weight:600;background:var(--goldbg);padding:10px 13px;border-radius:8px;margin-bottom:16px}
+
+.footer{border-top:1px solid var(--line);padding:22px 0 36px;color:var(--muted2);font-size:11.5px;text-align:center;line-height:1.7;background:#fff}
+.footer .pb{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;padding:6px 12px;margin-top:9px;font-weight:600;color:var(--muted)}
+.footer .pb .d{width:6px;height:6px;border-radius:50%;background:var(--gold)}
+
+@media(max-width:920px){
+  #login{grid-template-columns:1fr}#login .left{display:none}
+  .examlayout{grid-template-columns:1fr}.sidecard{position:static}
+  .kpis{grid-template-columns:repeat(2,1fr)}.examgrid{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}
+  .resulthero{grid-template-columns:1fr;text-align:center}.resulthero .stat{justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div id="login">
+  <div class="left">
+    <div class="brandw"><img src="data:image/png;base64,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ISHdu3fvDoRjWV9F9aZNmza53W43OCcopfTUqVOnHn744YcJafDzQoqmKIpily5dusAhsSAdHnjggQco9dmf2CY/ePDgwaysrCzg3DZt2rSZP3/+fDgZCjR+WZblBQsWLICUFOh7QKJ27ty5Mza8sS1aXV1dXVhYWAgEz83NzYX91mfPnj0b1kXo5MGDBw+OGDFiBA69NWvWrNnSpUuXUg3MnTt3LohhICgQDUyo2bNnzyaEkOHDhw+HnSjhfdDP/Pz8/KioqCisjL300ksvUdrg4ZIkSQJ78/vvv9/y9NNPPz1x4sSJL7/88stffvnll4BACLIDwsaPHz8eu0XxhDt06NChmTNnzvzLX/7ylyeffPLJzz777LPa2tpaWZblN998802800t6enraoUOHDmkZAHBus9lspaWlpbAu482aKfWZXqNGjRoFeL1saDMsLCwsJycnB58uhImkheeee+45nuf5++677z44vBy7BsvLyy3bt2/fvm7dunXr169f/913330HxMCEeO+9994DgiYkJCRoCepyuVyzZs2aBbN35MiRI6uqqqq0JyY5nU7nli1btsTHx8eD2E1MTExcv379emy7gvsRkKZ15Xk8Hs/atWvXYqSFh4eHL1u2bBngBvqFiYudAICz3Nzc3E6dOnUCLjIYDIaHHnroofLycgueFJi42j4BTisrKyuXLFmyBO+t22R6EFy477777nO73W4QTxgR8HJ4gdPpdLZr165dVFRU1Mcff/wxbKghSZKk9Us2VWepqqo6b968eVci6MyZM2dCX0VRFLOzs7NLSkpKAHFYDM+ZM2cONvjvuuuuu/bt27dP2ycQ+7hfGLlDhgwZgsVZy5YtW3733XffKf7d1fAEwZMflDJo8+WXX35Zp9PpgEsTEhISZs6cORMCCxhgUuD24drGjRs3pqenp4HUgH4FLLuA2ciyLDthwoQJR48ePapFPna0l5eXW2bNmjUrOTk5mWVZNjExMfGNN954AzgQIwZzo9aX63a73fPmzZtnNpvNHMdxIHLhHgiOv/baa69pBzFlypQp2M0GUFxcXPzUU089hSdA165duy5ZsmQJnnTaCQYV23a73fbVV199BTuZwDpKiE8jfe21117T7rimbdPr9XolSZK2bNmyBZRA7JRp1qxZswceeOABONgWEw7jXJIkqaSkpOSFF154AYIFuJ2LsVMtQXEeraqqamxsbOzEiRMnTpkyZQoYwwzDkH379u3//PPPP9uyZcv3EF0hpCF1IiYmJmb48OHDs7Kysjp37tw5NjY2FmwmQRAEq9Vq9Xg8nqKioqLy8vLy4uLi4hUrVqzYsWPHDnj38OHDh8OG/mCfHT58+PDJkydPwoAJ8Slbffv27RsTExPjNz+8LMtyRqPRmJubm3vw4MGDhDSYKaqqqh06dOgwYcKECffee++9sGGWKIrimTNnzhw6dOjQpk2bNm3fvn17aWlpKYyLkIYCXhhvSkpKyujRo0ePGTNmTKdOnToZjUYjRKp++eWXX5YuXbr0p59++qm8vLwcTBKIKsGkJsSnuMXHx8fPnDlzZseOHTu2bt26NSGEVFRUVOTm5uauWbNmzaZNmzaVl5eXw7ixdgv4+T8morK+AJfBKAAAAABJRU5ErkJggg==" alt="Takeed"/><div><b>Takeed Academy</b><span>Accredited Training</span></div></div>
+    <div class="mid">
+      <div class="tag">Assessment Portal</div>
+      <h2>ISO/IEC 27001:2022<br/>Lead Implementer</h2>
+      <p>Exam-style knowledge checks with a question navigator, timed practice, and performance analytics mapped to the clauses of the standard.</p>
+      <div class="feat">
+        <div><span class="dot"></span> Five assessments · 50 questions · 70% pass mark</div>
+        <div><span class="dot"></span> Exam &amp; practice modes with instant feedback</div>
+        <div><span class="dot"></span> Clause-level performance &amp; readiness analytics</div>
+      </div>
+    </div>
+    <div class="foot">Document TA-ISMS-LI-QZ · V.03 · © 2026 Takeed Academy</div>
+  </div>
+  <div class="right">
+    <div class="loginCard">
+      <h1>Sign in</h1>
+      <p class="s">Enter your candidate credentials to access the portal.</p>
+      <div class="field"><label>Username</label><div class="ip"><input id="u" type="text" placeholder="Username" autocapitalize="off" spellcheck="false" autocomplete="username"/></div></div>
+      <div class="field"><label>Password</label><div class="ip"><input id="p" type="password" placeholder="Password" autocomplete="current-password"/><span class="tg" id="pwT">Show</span></div></div>
+      <button class="btn btn-dark signbtn" id="loginBtn">Sign in</button>
+      <div class="loginErr" id="loginErr">Incorrect username or password.</div>
+      <div class="hint">Authorised candidates only.<br/>Protected assessment environment.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== APP ===== -->
+<div id="shell" class="hidden">
+  <div class="topbar"><div class="wrap row">
+    <div class="brand" onclick="goDash('assessments')">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHQAAACvCAYAAAAsY/rLAAA070lEQVR4nO2deZhlZXXuf+fU2N3VNHQjjUDTgIKKOKAJDkmMQ9SYoIYoN7kOCWpicjMSYwajV40xYqKIiUOiJk43gsaQwVnRSBQcAQOoqEElAYFumoYeazx17h/v9/Zae9c+Vaerq+yJ9TxV55w9fvtb35qH3dpw1nksMQwAnfJ9EGgB07X9pGMARsrnDDBbzmkB3fKb8rudzmuXa40C64GTgGOBE4CjyvdjgbXAKmAlMAQckc43zKZ77QImgO3AXcAdwO3lbztwbdl+O7C1nJdhqIzR4/Z9/HswPX+3PNdAeXY/Zzd9b6fjF4TBhQ/Za/CNB9DA8kAH0YPVBzdZ+z2MELAKOJJA1NHA/YF7IwSuB1aU6w6VezRBnqCFxr2yHN+mOj8dtDBHy+8phPwtwP8A3wc2A/+JEH8ncDewu/ztKufPpGsaeTPl+3C5T5tY3B0CsbMsAMuBUBAyvepBk91FD5Qn1UhYAZwMnAocDxxXvp8M3AsYK8cMEQ/fTtfKlAzVhzfFz/esmcqG5nkmL9LZ8v1IxA1ORRPfQUiZQRR8G3ArcDNC+haE+JvKdo91olw3L+yB9L3LXE7QCMuFUK8qT0BmuV3gGOAhwI8ADwY2IupbVT7ryPK18pgzJ8j7Sdvz53xU2nR+nYt4TPm5ZqneZwBRbgstzBPS+eMIcVsRtf4AuA74AqLqzQR1Tqbvpta+oLUMMnQwDWCIQOaZwBOAZwCnIdlWZ2Mz9F5knsCM7LzdMNCwLcuxOoKpXa/DXOQuBPl+Aw3b8nZfv1u++3m/AVwJvBf4L4Rgn5f1hnnZ7mIRat4/gBSa3WmfZd/RwAMQEp8InELzRNVZiSe3lxJQZ0X1iew0HNcEvRbIgQCbgKuBTwNfQix6O6J+E8hKYt5XIapfNELrK2UQuA9wP+B04OHAo5EsNNSpMSMjT2qHhSe5CWlWLoYajjsQkdYLLGIM24BvA1cAXwO+BXwHIThTL8DIYmRoZqn3BR4B/ATwMKR9nlAGNY4Ug12ETG0h7Q/C7BhCisRQufbq8n2EYEdZwfK2rB1ajlppgrly0ceb/S7EGvcX5IXdBdYAZyEi2U0oVV8CPoioeSca9+RiKXQj8JPIhJhA/P5OtJq+hyZuOn1OEyvPE+rf3mYqsnIxhLTbdcCG8ncvxAVsthyVrpVtX9J2OHioE4S0EaoLrknGbyufXwdeAlwOi2O5WdHJrLfOhk2BtqXaZaDjfd5nkHAkNMnTQSQ7jkWy+mGIYzwUyZfViL1nLTg7JpooeJb9T6HzgZG5Gz0jhCL5v4H3LwahRlxdCWmjSRmkaqZkz0fTtVoNx9TZoI/N165ruvlzPbIN749k+8nAiUizvg+B5KZ77W+EmtuYCOxtM0wiwsiLfAD4MvDoxcjQbLB3G7ZPM5c6KQMbIBDShDRDdhz4uFmk5ZlDzGdobyp/V5TfY4hdH4lY9WlI9j8IKW4r51xh/4GdIHUvlRea3aSeyyE0LwCzi3UsZMWobl910u/sh52ht4HcSn9WBrq1fVB1Uhjh9YWV93kx7CQUh2vRpIwitnwi8CjgKcjRsXr+R/+hQF07b5Kn1ui7SKn8OFRlqH2YQ0jp2EgoIxsJv+kIkl0rCPY7TUzaFHJr/RdSkH6AtN07kKq9x2ZirsM9L4jh8jmV9uUHbnJq19l9v2CO0gbOAZ6J7OeVhDuv16Q2eZnqsNTyOVPsVBnfKcD3B9FK/WXgSUipOI2wFesnm3p6UfZMOjbz/e1IE74beUNuAW4Avlu2eyFkuTCVvttpnfdns8XmSj/IbJLpnvAu8P7ydyzwOOCnkW19b8S2h9O9vRB8jTy+LDb6QXq/YHwYkQNoLjeBEPNM4GWE33GcQExdxpmCPAF5Qk0hdWENClmtRhN+Ztlmf+aNyJf5+fJ5Vzp3plxvivBKdQg5OsNcNrxgRIJmJczjdvjrduAShNz1yBZ8JPBYtOjXleNzGKxuMtUVt2mC8ywWbPb52gPApRSvUWvDWee9Afi9stNCNg/C7jErJr2iEU1Qf6g6eDJmkB27Gfgk8A/ItwlaDNvT4OtUkNlsff9iwSbTFKFpegGsQ8rUTwNnI+RmMOUY+mXLewPZHzwN/DjwVWCojdjrBLHyO+nPfN8DqlNgN/3ZtZdZY1ZmOrU/yz6z/eNR5OWPkbF8OfIBG5mWZ3ZC5OvuVRB4ATDyzPL93Zr17Yib/D4yi56JIiaGOkFYu++geV4KyHrD1Wjxt4COtdURhDzbOPNBfaVl0q/va3KeN0HdNzsJPAa5uy4D3o1MEIeVHAyeTtd3HLIfljsfmBMZPEeZLU8Tc3Yp8Jky3icjyl2LTKQW1WdbKirNHODjaMF1gW4b+QazjGoCU2Gr9huqsgi0CqfS8flBzF6z/PP5PsaT5cD3OcD7gDcBP4V8m6aarLzVEbFYsFjxGLLNa5dkBy0u29x3Ax8CXgw8HXgVotoJ4vkzV9oX8ILuIqXysySxNohYmllpU1SiSeVukotG4GhtWz6+KXPA6R717IZ8zzEUR308Qu7foaiDJ7QpraUX5EXZC7K2nG3urOV302/DBIqEfBspU49BLrknocXZV9bBApCvcS1SKp0J0m4DO9Bqy+6wDP0K9Hoc0wjOk11fodkL5GtkozrDCDIlfh+4GAUHsukwnzlVv+feTGweczdt69S2+bvl7W3AB4D/hcyf91Gd33oWR+Ze9fFm8FztQlzhDoIg2m0k5K2oLMUKMnuZZC47rU94ZslGpr97IdTH1kVa5sXA86kqSUvB0vYV6slqU8jP+lIkXz+KbEaPeYKql6wez63PwTCa2xsRhWaP3PQgSl5ayjCTbVizXtuT5vv+rLv2TKk7Gx6iHvN0WO3vUHTl5eUh+43kLCfkxecFPAP8d/n7HHAu8LNIiz8KIXWE0GGyudiEkzZSFq9P21pAdxCtlnEiX3VfwQ8xSWijLRS/20qkU2wuf1uQM2E7ejBrqlljzXHTgXLNjciYnkYJZ/+xROPfV5itfW8TVGef9nuRjP1tpEDl4MBCyJxGSti/EBxtTwhzECFzE/KGLCZBqg47EQVdh6LqVyE76VYkr22wZ5acQ0R2wdVlXX64VcgBAVXHQ47V7k/IIqRJDJhL7SK05jwX9Tht9l0PIVPpq2V/9oXvoabvIKN+KWAMIeulyD5rch/WIyT9yL58/G5CBmVkLoUOsBTgXGCYS2UOgKxCkZ75PG9NWRhbkQln0VZRyjwp3yyfS2X4DiJ5UWc5HqTlYo5y5AloSk3xnw36PF7biweCUuQxNXEaP9MUYrOPLdublL/69UDc9J0IX3Xza3DPP+Rc6GWH7i2YbW9NNzIbzCxxIfOh137L5mzudBGi6yUV+wOy2zMrgHW/9jEo/pp9v/PZ0tuRaLwoXTsfPwtBPVfRHF1ZDFirNSs01bTpT771Yyf2QvSBAnV9wFzIi3A1it4449Fjr8jDAv59BPA6hNQ6N/O99lDPLUjDzF6exUIXybiZ9PtAkW0/LKizw3qEaAcyXczNhtP3QaKcwsriDFICP5uu2TinlqF3o4KapYAOMlGyyeEBLIWdezCDn/9Y5Masz5HB2mwLIXcCeAvy3ZrKmyyBipflyyxN+AmE0Caou/MOVai7M7Ny1wWeQzXTAiILYZqq9joF/BPwRfqYPx8whAzzpdByB4icocMdchqKHQYjwPMIuZlNkhzNca7WJuCP6J2fXAEX4A6guomlgBZSr+suPlgapetAh6b0lvzcD0U5St5Xj5laljp75LeQzB1P+3uCV880kqG3L/oxquDojQedMwwOdegVHbEN/fMNx+fsRbPeNvBK4FNUE+aabPPKTmu2O1Hq5b6Cw0D5RnNufBhA1k9AmuwYio06zNYiWG9OLrDcvJCIOpmb9vJA7bmpIxRdwj9YZ5V7E1prIbMlh86WKjR3sEAO/3niZ1Ay9wmEX3YSEVSXqo3+FeBPEZEZ0WblY8ADqcaA7ZgYzCmB44hCPYj6CtgbCsvplIcTIqHqXM8J2qMoHnpk+e1cLmu2Lmm4AVWT3UDV6WD36TOpEkh2ec4aof78FpEXC1Uq2xvIavfhhlDnSlkWWos9E9XT2FHgHOPh8jeBsg9ejSjU14LgekPAsxCOcnHznuyQOkJvQ+ULvZDQj53qqPrhhsg6WN5NILfdk5BDAQLJeeHfiTTai1H+0Wi5huPJoCzIk4j+C96+xwefhXYbOdRvpLoyFuNsyAK+V0zzUAW78TIijkZJ2WOETmHnyxSKHb8A+NeybZbI4XWgfwT4OYSjnE4KIeJaueR9lqjnnyTIOWff9ct6F8rtPZQhJ49Zj3gcsj8hoitr0DzfAjwXIdVlhEZmtjvtLvwGQdm5tBNKkphv7ptdQ/RBWAw47cTf6/sOdeggFjuFgtgDwO9STUgHIe1KlFv0rbJtpmxvE5TeQuz3x1Cx8n9STXv1PQE6dd9gC2lXdxDGbL3soB8w5R8OCKyDc51BLtBfRFmKEF6gLcDfAC9EIq6eNG471WB2uxY56HPPinzfSpcRX+gmpBidSWhruThmIegQqvnhSKHOFZ5F1eEXEj0RZpGT/c3Av1Gtdckx0XpG5ANQ5VsHUegKZGbOodIm730HsYJsdti32E8icxuxmiY4HDRfe3QGgV9BiFyJQpQXIsf8PxKpmzmNxg6J7N6bRdS5ARHbTuYJ5vdC0GfSDQcXOLYOLSRDHDWoB3sPdbCGex8UxF4NfBjZl1+lOg+52MpE42t42ynImQBC6G6q/uE58dA6tJCme0Pab8T0myK5ojxI3Vt0OERbLP9+CqX2PBF4NoFM157mlJ8szrKvtoM04JMIX3tG4Bz8NVGdnev/BPwooQz1a7L42GNobhB8qIOD1pehLINc7pjzdLM+kWtcnebZRaLreYQP91pCGWrUT+aLgF+aDnTt5d5Ub2+o/T5cshWsgX4LIdMVCe4h4RZ4dYTUK/xmUGX9xnTsd6m2RMgcrydCHWX/LorFGfqlUB9nhGb31OECdqy0CRNmFTJN7Ey3azDrKabUaSQ7f51QSm9A5s58YqvbNMnZA+H6Ccc3pxqO7wXriMUBh4fJYtjTCApxt1Gilz2EHO0ijTW3JzBB/AoqT/G8fQ9pytn/nue2C70p1Bf9ENEkcJL+OnhY5v54+u5Vd7ggNesNztrLkBMAPKdtoj70kSjUlq/zXZRflN19c9yMvSjU27egfFDL0X4UHMuCY6mWBcDhg9D5IHvRHGJzbi6IBT8Z9YyyprsN+XwXLJfsJdeM1CkUAXD5Qb/hM5AwH+ux73AGK5eZSl0gDXAG8DSiRd0sYrU30Mf8NSE0JywNorYpdh7vDYWtI/rZGu5BqMCca4aoDbX2+wsoxcTQRsGSb9KHYtqE0HpI5laUs5vbvs0HRvog0aK8njB1OMMgVdfdOJG9cCZqDlJvn/rfKCtzQQ7ZS4ZCpEqMozLyO/ocsJ35HdSYyde6R34K6maHNd0Oqqk9uWw38Ywjh3xfXrpeVJM1XVCOy3X0Hz6z7ZTDRoeD268fyA6EPM9PQT2O6rrKLtS5rM0iWa7to5wgdjNyO/XblMLUuDFty9rz4Qz24XqeO6iS+21USy8pvydRVUNfjbV6yVD7Hf0b4B3InrJN5f0ztc8cQz0etSTND3O4Q90vvgplNBxDNT7tcOWnqTavnBf2hmJuQ+1GHVmfJdIUHUXIMIBU73unbUtV3XYwwwhRYQZKLfl5omOZ7VLj5mOEm3DBlgMLITTH23ah+n47hx3v9HHj6bu3r0XN/L39Hjkays0Mosrno/BYbsBF+b6d6PbSl1LZC6E5wJqPuxY5GnzxFczNPYJA3CqqCL0HIiWzixwIT6NKDLmby2UoDlqva+kJ/SLUcrULvKHcxLJ0iKjBqMf6RlDUwA9wD0SiwENQNGUFVcKAaLz1nvTb584L/bDcfBOQCfNhJEudyeBwUT3br43sqmO4B6EGz8MfEbm6UA2ADyDf7eWIYPquE+oVbfFnXjVZi/1/iCq9zVRav+4Akg/ZfDncYRj4NdSlE6qvP3HTDFBjY78V2PsWhdCcCmF7yZEAmyPXAf9O9d3Z2RGfKfteKK53jw0quB/wVqpKUA5wg4jjY8wNbiwIvdI4M9g8yfs2o+aDd6ZjvL++itagUNBqDg/IQX0IPWQI1Yb+VY/zuunY61BAZEfanzMoe8JiqWYGJQx/A6nWw8Sbi/KCMLt4NIdPvYs5m3OTrdUOIgfCw8p2O+izG7BD9NfdytzshEWx3H6gjXJE347CP1MEe2jKJHwYotDDwXTxnO4iqrO7qHf+cxHHgrlsFoTcu1Be9F1U56svXC0Wob7RP6N4qWVsvfuHbaqjUeD2cIDcKsim3YmoAcbRVAuCodqZtItSTb5ONber77qixSDUuS8gg/hl6XteUfm1kCMomnA4mC5WEI2AVUhu3pfQYs1endYJ0Wfh06gbTfas2WO3pL5cQzZr2mUAlxBvPejUjvP3H1vEvQ5W2Ek4Yy4EfoZmZTNnLrSQPvJhIuUHqjm8C+JrMQi1C8oVViOo5/vNhGMZwtdraj4JdaA81CEne52PKrOhmqEHc3NxQXnQX68dl89dVPhsIegSXiIQm7gR2VbWZHMFsmEMlaUf6uCX1p4NvIioF3VaianNyLFnaAa9QWqCQHabqht2WRDqyIoN45yUfRVCeM6JyQ2Qf7X8ttyomzJOQIa5OcB7U4ax3JCLc/c0rEBjHkTt3l+JHCrbiHKIgdp5HWIOrkGuPgjFKStMffV6WgxCM6vIK+77KLy2g0itqAv+degFOkawk6+dMZ5TG+3MGGKufbu/IesHdsmNoTHfD5UOnorGvKZ85lLBXABmbvYW+q/u6wmLQahfT2UwMqYQlX6O8i5LqoLfzZUy2/UKzFH8vEgsp52TdCDYsX6TxkqqFLcTKYZ/jLLeR4h5yk1ITNF+liFk+l2yFIPbVzvUqrUpcjPwRoSAnYQd6uTiDkrzP656uT3sJRcHW/HKlHkg+IPdNMrt75x9MILee/qccpwXpguAYW5fBOdZvYv+K+TnhX1BaC4GtmCfRa+FfDvBgrKQB2m72YTxyu1QlaFeCL5fDiPtT/DLCtwYyubaa1AqSVZiPC+57TiEZttCSQMfpfrS2UXDYhCaXxyTB+DJngb+HFVLtdEDQ7RcXYPe2ldvfePV7usMlXPvTRQ7HQiOCS8yU1QXycznEX37YO5YB2rb/dz/iHKe8wvyFg2LNVsy6xhM20EI2QX8EtHZOr9odgWqDPerjpuq0szCj0Or/oEcONBB3h8v6t9B9uZRROlgB8nZ/O6z7Ooz9V6PwmRL9kaLxToWoNppDKqrawZ1Urmox31OQkhyaooXiBWsLmLVxyCZ9GSq7wfbnzCIFuoAQuSLmSsXu8Qrpn1OPad5Aoknt+Jbijdy7BNCJ2u/8zUdGH8HqovJ/kqQk/oJxFt0YW5f3SGkeIwCf4nqPvJ4VzZ832elgqCkFel+A8Qz2LQ6F3g9CuBnh4oXZk7VnCFkrZ9zF/Lx5rzmfc5bXg6tcZZQGO5CL4+5Je2zTXY2qn3xQ/qhre1anu4o3y9HiVUet9uNjpbvuWpuX8c/RBQRrU5jbiNl77nIzNhWzhkv+x0ug7mL2FqvX+P8DlQIZnvbZfr7BMtlBngVj6OXx7wfFQ/buzSKqPSJ5Xi/o2Q31VxgOynsXPgbJH89WdNUM/mXIoiew1bjZQy+/yhq53Zh2e/Y5kqqb3MwGImZc4yid7a+q1w7l4jsMz6WA6HumGLvySRwATKeIVh1C72fGoQUp6h0qXYiu7l87kINhF9KlFfk41awdMpFLiJyo4sh1Gn6D9BitPOkkz69YOuO+Pr31yPPWn3ffjFbFgLbW05LMeX9ClE6YZvzgahDs0NHXslW/bcSVGi79mzgTxBSdxGZEkv57jN7r8bKvYfLPc9HrQbsKcpZkU0mh2Vp9oR9Hr2ZOHuLLHYOWJbbJTpMumXoVmTKWN5ZLr2UYF2dco4najvxrtBxwnb9PyhJuUWkj1r27SvkUo6dyMH+eoRQc5wV5ZnMiiE4UxNi7US4Gzldcqa8P5fErbkcCM0+y4n0exK9Nf4tCFHWHE9HcVJ7VLJnaRip9jsIluoxn4/8pnZcrGBp3u5rdjuIsgwuRK9W9rU9ttG0bYKqoyG7LI3MDsq1de8nu00HasfvEywHQnNiMFS1vGHgr9FDzaTtv4dYWC7kcdOOuxEipwkzp4sKoV6B7EBT8FKscmviDy9j/UWCc/i5TImmylFCKXKGganQc/x9lKB+B9WEaiO7rxSThWA5nd0ZOYYpVJb4p8hLYtnyQNRkH+a2Rv8PZB40FUONICp9Zfmdi5Tz5GSKh7k9HwZr338E+HuUB2UR0a0dM9BwrqNOEOzZC/ATyPSyfLbMz/OzX1x/SwE3ISRsRg+0AcVJj6aaXAZ6cL8gKL+9DyKY/lykga4makTcs9Z1l8NUK+Wyx2sGacxDyJT6JFpkk+Wae6NwWRmEKOD6FrJb+62AXzTsL4TuBD4CvJaY2HORPPWKz4rT5WXbMNVydcu7k5BP9dcItuc00hmqz5m1Sb9CehBR1PlIzq8l+gXD3sdix6g64f8W+MJenL9o2B8IzQ2V34k8STPIDDmXeDFNVuG/SKxuU2c2GaaQOfFipJGaOu2VqZdzeL/Z+vFIWXslosidhMzsEFptv2CHwm5kpvwN1WLeZYP9gVDLjCmEpNegFTyAEOqEbPuD26gh82VUGx26tB2CmtcjKvXLbHJaqbVhENKs2PwEYrFPR4rZTqpFQjlxuh+wljuD7ORnUVWYlhX2B0KzsuJV/CrkIlwP/AbVbpZWKi4gakScLmqWmT00w6gb17uJTmYDRDhrCJlBbeA3UR7sRiL/aYywnT2GvdFAcwbHq5ESaMVqKcyqeWF/INSapicOZJf+LtJonwg8lmomwyhSjK5K2wyZNWft9umIUh9JNS4JUnjegWzMdrm+G/q7BH6UCMp74fXjmvPYPoAUIbs0fyhZi/sDoY5iuFoNNHHfQFS4A9mX2QtjinwNIdNMUdkhnz01s6jv+5vQG4kG0OSeg3oCPb+c69Cb45hmt1kpck++fmTgMBIR70A2tEsCl9I12ROWnaf3AD9cndI+iXy+n0cVzu9GSPCkfAlR8eMRxWSHPsTzOENiGtmUf4siPl3kNqxHZXKOjyEHnHvN0zjhobKcnCzj/gpVFptfHblssL8QOh9chRKVL0XpGX4T3zDyB78PNVc2MnN6S454QLDjExFFuvprX547J8VZ0bJcXo3SWN+IkLmSeAnP7vqFlgMOhLTIOkwgL9JvIYeBX6o6i5D3WeR1gWDfmRJyjlKmRCtIdWRaK+3XpHDKZvaETSFkfgcpQhNU63rqxb3LBgciQkEZ9p9CitCxVHNbb0UJ3bcR7WDM7qz52lVns8UTm23JnLW4N/ahr+F7D5ax3YW8VVcibR0i4mS7dNmzFg9UhG5FbOqLKLo/TKj+k4gVf6kcm9sBNKWVQvhenSKSMwv21tivl0EYXocKoAdRb3iDs+ZzJsSywYGIUE/6bsLGnCJCTC0kV19HKFXZ1ZZbxOQaGwhn+UDan6Ef53hOCPP8vR/JdgjzxH7knPK67PN9ICJ0kkgtMTLGCIPdZsaXkRljeVXPE4a5pewL5Rz1I+Nyb6YWan16ERIFEJqvu4E5DJjNsGWDAxGhXSJB2+4yp7K0yj6XTLwCBcCN+FxqUA+l2ftUl2P1CoCFYJBwOGxBKaZXk96yS7UCIAcTDklP0d5C7mCWi2TbZdsfI+0yxxUd7G6l7fmNuRnq6R91jdkwmT5d//oGZF7ZjoWgzKbxQ3XOzZ5bte05fuux9ZWIfTAgtAnMxkAepj8j/LVQda5nCuxHKRkiesDXK6hByHTp5F8RyHDMdSHIobhpoilmnR23yn08dierzQsHI0Kdi2OYQAU/7yy/O7VPp4S4vLFfcK6P58iB8inU1P9ctICmiHBcP68SM1JMcatQH6cfR4VZR1AtfM6wLBXcBxo4S/AC5HSwvBwgErdzY6yFYIpQnsyO8+K4Djk8zPJHkBJUD6TPd33X7jwZ2dtXI9Z9BaoAh8hibKe/BWXwgej6Wwi6CInODrShfxMKUG8kmi6vRPlIThO1Bjof5ICBi6nsIPgOch7cRHSAmUzn9Ou8d+z2N1A5yLsQ1R+PFqHTZVx+4fKSBYPsByNCXR8CVZOkhTxLv4Qc40bemnL8KAsjEwI5prZWOe9mtGAuJ6q48yvEsr07H9i7BHJHuvX7FYjdbi/7ci7UBH069g9GlpupoUtUiZn9XYPiqaDJcZrl3mbUOR8J5Pl5G3IgGBmWl3vrNGiV8ZyCUjvXA7+P+jI8jCjImq199nfxDWedtzfHHyiQSxb9wDmrbxg4DyWhHUFQTz9OeJtHPmcS5QS9OB2TWW2HauZEvwvndoTMHUQDjmnkPvzFhmdaRdjnPeFgZLnQvHrrdSbvQZPwR2jirCxl22+S8POaRWeb0DWcF6Rrt4l3qWaTZpq5yKwvvOz5+sPy6VofH/cdYoFkrXYXVQd/U1ORwYMVofOBJ2MYZfJ1UCbgEIEEs+2ci2RN1dmA0wiZf0FkLzhyU6eWCURlNmsMWZmxTGwjE+pSqjHSjLw2sUicZT9ZjjHVZrem3ZBThyJCLffsZHhL2XYREVu1+u/C3tzAwwj/a+DNRC6RoyZ2P+YaVQjkrALugxbI16nGTW1Du6wf9JKF+yA5fX3Z5gXXSX9QZcE5ROh7tA9GpWghsKKUqe9vUSL2zWji7WyAQPJMOuetKJqzuXZcZoOm4jai3pOQSXMtyrr4EnqJ60tQ4rbHZjZ5EnoHzjUoRfULyNF/ZLmuuUyGTtnv774mZZytQxGhENRp5/4s0lJfAfyAqKpuMgXehGpvbiN6IzkUBtX+TI6qbEAK2J8hO9jNjzcgU+c4IqDgtNATUO3MkeV6KxDis882U6Nl7d1pHNkMGwQ6hyLLtazK2idIAXkXmpDfodoH33bqnyC56Yl034QpmnOCplD5xh+gXOBcaTeKZOVvo0WUHfZDqFLANqYzLfyyQCs/uQFHhlXl3u7G4p4UhyTLtd1pWelF66yGf0EJ1rcTSs4oiq2+kWjGYZggmhk7t8kx2dWIpZ5HVK67lHBn2f5elJ5iajKCXNCUKXKMsKmhKh+HiDjxrtp2a/vdQxGhEEFvqFKGZdg30ctq/y9Sfs5FCB0nFKXMvRxhscK0G7HR11Dt7UfZtxOli36CagMOj2cI2ce5Gs6FWfUyxWNQmO4OJAbehtj00Ug83FTO/QhwYhPLzcZ69h82leMNpE8rFf0Y1u7BkGXYCpa/3C7brdup2peGJgd4tiU7SDZeADybcFh4/DciRH+E0GTN+n0N941w6MwOD/uNPdctlPl/PqGcvQApXbei/sOm5p8Frmyi0OxJsd/RiPPA6wLePYb6zcmxGeBaE/gh1E72CblsYgCxuZwaehqi6meX3/XA+8uRt6fJtOk3HmvCcWW47215O0Y0Wx4l/L+nNFGoUyYdec/hI6hOfM4CcJfrhZCaqTIndFkJ2Ocq5n0EI9Lhqt0E9W1EmuzPEezXc3gDimluJXorGZGmOCts84H7SHTLPb+KFLkjCZ/05eXzBuABiH1PA//WS8t1lh1Uy+Bmy9/R6DVZjh3aFdZPgDcjzxT+Q0lx7BO8KHMurZH5MlSi4ZJDZ8t/DVHseNm+k6Bqe3Sc1bAQWMZaYduCSh7dS+Kicr8WktPPK2O4BPhIE0K9so5ASc4nodVh78ZOJJy3leOdpbeg47iAV/5apLr7fncQbeD2J3SI57F8OgrZsM8tv+0mXI1yhF+GXqCTdQxzm8x1+uFg65Gi4/vsRsVP5yGiWYeocm255wtIxNSEUNdkPB9F1M9Aq84q893ITXUNKi66pDy8KXUhmEaurvNRIdE6tAovRRrc/kYoBELsBboAUQJErYpFzwZUtrEVeXuuQIs9mzH2wfYjTjYRJY6eTytUD0FOjw2Io21FFPvxctxQLwo9GxnfG8u2HFJaiyj29HLcLwBPLcf1k+6/AjVAfg4RbTgVudneTfU9pPsDBolqt1WoX++vEY5726BWAh9U/u5C1PJV1EzrKoItQ1V5mQ/WoWaX2ZHhCrwXA4+j2q7uM4hLAEw3abnTaIJd1WyvS47gG2kjCKm3Ixbdb0HsKMHGp4nI/LInIvcBlmFGwDlpe/507m9my0eh9jwfLOe5UrxdrtVPKuZdRC4RaF53EPNjxcgB+KykDtQDvmYRX0SU4jCOKbRDaGvThPfjKNS/zj7LPTdI18+NFvNC6hK5Qf04OlrL/GcZbzvxn8t9zQKt+ZqlZkXQ4mIjajPwSEL5G6CaE5SVwyxvfX8HEIww26c55dN+6j3XsD2ZPfYdlIV2EXIg31r+uijU8xjEYhz/Gyg3+gngGShc1eQ4yF1M3PjQHU+mCP9khrzYurXP5QLLO8c2r0TRl0nEib5LpJGcjoqPT0dsMVfB3Q+llpxbrpvlqb/bts9cz8nV2Z/cRvOzoJZsD34dtqH+A+tQyMnUuRYZ1S9AEfeVVFnOU5CH5PsEMofS+Vac6n1/2jRXOC97+V0DeKJtRt2IqG070Z5uF+JOFyPR8Rzk2HcZYRc99zNQntA1zK9f5Kx6E5gVMs+XRdO8kFmcJ9ieoG3ozQ5eIW2kVd2CkHoxkfc6g1j041BaYoacmmF71T7TrM7vRqvQ95qPJS7nH2lcFhObiPKKunm2FfVTeEV6FtextFCLgdzoEUL21p8zp5TMlnt6YU3RR999P0DOEs8XWUnIS8vTISS4LysPA+GCGkXl7xbew2l/VnhyI0QIxcvxxexwqP/NLvOfZTpUxYTbvOV9ZpnjKCPwv8q+ISIc9jSqFdz1RWOwC9VzlefO87KgSZcNYCcq+SIgqsl+SkcERlDE4mZCUXApwP0IBWC6di7lmPumhzJ7OoGQQ36obA/+sP7ywsvxTef0mO21CaVkBeJoH07HgxbucVQzD7KoydA0zx6DF9aCtS0uSDXYEX2vMkD3MHAg2BquV7JXblZmhpDydAfhWB4nXIhPBx6VBuvtJ6OuWxcylyqhqlQsJ3i8w0Qqi+tXVhBdtLeVY/z804TyaGq3/rAWsW1rslBFrBWplUgmG6EriUV/JH04brKJsQa5+j6MkoChulrr3Ubyfqvgw8hr8kJCVmb2Ya3YD+P7d9Fiekn5y9Cl96pebvBkWnnMyVv+br+ut9cd81YG9wShy2fWbv19NeJ8mb37XvYbz7ugsx26jdBajSAjzoPyxZxMRfrdqv2GyHPN8sIPltmYH6w+2JyOAUvzGo+9gRxNqT+vYazHdoMRRvrMkENzLYJo6vddnY7xef69h9NmLSsnQvlC9QH2Qyk5jObUx2xE53zTYeKdLjntw45/5/MYqQdDDpRzZvPzDBPs15qqF3YuuVioZYCvb08R1LxFdaeC0/vrlLI3MUp7jyxffX5Or5gp9/pz5Av+CrGwoLrqm5wLBzLUw4jmPDlFxcc53txPnDRf3/No58xYuc5wVoqmUdTjbchAzoi2I7gfsFkzRrxn0+bOFJIFt6NIzf+Uc56B/MePKOc5YGvFwEFf27EHMjjMOEAUUv2ASAd15dq3UFb+IJFQ0I/SZy3Y2QufIwIaU60NZ51XdztZk7VC4P3ZpzsfmN3ma+QVuBF5XZyGCKFJryr7dhEpLjm/5mCgUKjmR82XK+V5yaJtIW6YFbMchx6g+HKzX9GVz0YEzM0uWAisBNSRuRLFFH8GcYCPoLrI/0GmzAtQhttlKP7oUFPuXnIwIdUwTqSVZrPDEax+CSWfZ8jIHAbGbVN6Y067sOyqO8UXUozywLJ8eBSyMS1XT0OelU8hBJ6C2MgZSFF6c7pOlkv7y4TpF+qOAEdumqAejHAy3kLXt9s0y+dxaPblzqTfJu9MFb1ccv4z1bsj2ARiOycTFVwdpIYfhzxEpxBl7y2UkugHy46LNgvff3//Zds8dzHJ7s9snvhYm3cLXR+qfZCy5j+UEVrXsjKVNnk3eoFL5rL/chx1/pohHnonqoX8GgoCZGXn7wl/r9M9vRiaxpHtxf0NndqnIbs/u8xlv3VRkpXQXoH/uinXni9JrEsEsR1paKqz6HWjLO/aqJ/QL6NQ0yxKm/hc2X8+4V26HHmrXFNpTXEtcidOERRr6u1Xvh8MYNGXSx38bKuQC7CN5ucOqv2LJnuV5Ds+6SyCxaRY5jhoznZbQ0QoJohGEUeW47YRWvJD0CI4vlzvJuCfUFdrO9MzZ1nsWA9kMGGchtJazkJzcxtKDvtQ2b8S2N2LTeV0CWtijrIs5CD2AGy7WmauKNfcSdUXur0cdzdhbLva+lzkG6ZccwbZsF8mioig6js9FCBbHqbOB6A83BMJkXM6shK+RnFY9EKo5eD9kTKzBUXu7+xjMJktm9KczmGNzIgzOFSWE7bXoNVI2m4RMJHOy77SQ4E6zWX8XFlZsl5hgjiVeDku0IzQNpGJ/ZSybSfy8JxF+F57gV18jq/6HlmhsaPACHF9JoQ7axVRLOV99SCvWW5fPXwOQrBYsUx144zsK9idjm30/s+i12P8KOFSWkEUx/QDjh1C9b2bI4T25kF5DDnrbwYtIKd8QoSpcoGTtWaIQPjBDuYyFl1WAFdSfavwADEfPm+21wRYKbKT3JGXfpsTZmd0tm8nmVu0k53y2Su1mpC/EK9PzuZAjmrkwteDGfJcdGrbs0Y7TlgjptqePRayN9/g7LMm53hGSk6lMHKcVuJjcxqH5YUdEdl4zs4Nn5tltNNAYG6/gTzOnM4C1YRnLwgvXh/XFIywM6B+fraLR4m0S+/3PNft+Tz/2YkzQvXZmgIkzjOq1M/0kqG5yBfEp9ej7DabGJtRFOEryG70SpkBHorY9pPRa6kcnB0r538PNSv8CErq3kzVPZYz4eowS0zsJBF/3Qg8FuUH34BqTK4lCqzsZVpVxvMQ4JkownNSGuONyCy6FLWZub1sz84Aj/VeqE7nHJTx+EAiVnkzKjL6AHqx0C6kXGYTzot3HXqj8FPRq8LWEQvj88A/UCWK7PTJ1+k2ITRrVwavpLOJ8ojccOLxqJZjFiWAvRG94DWDqXIIqdsPRdVcV6HWa+9hbgetJoTuolqesQYVVr0IuRI7CFE7UQOMi4gW50PAmegV0U9lbi+FgTL++6ImkJegl6BfmcbuDMhTkY38y6jPrbebg5xa/p6C+hW9muh+DZKHEyip7vdQCPFIqjHjWUQUP4YWSHbk+7gKl+2FUG+3hjlKNWpgu9Q1IE9EfXm6SJk6gxDodsuZPZg1Wj6eReTKvI/e6Sh5NTslpoP6DPwsUTxkG3q0HLudkNlPQgECOyp8/CRVk4Cy7ZfK8zwNUa5Z/Smo99GjCS6WWbwzNayxPxjFPlvAv5XP3ciPfQFq3JiVP+dGG8bQ4vC2JhbezTvqYL48n6zImuYEQdnfJCgiJ0c5FcUP3CUCu6ejtxOenO6RkdpN1/HnSchz9Cy0ss0xvPDejKq1jIQx1EvoNOSd2p32eYKdsWENEmTQvzw97yjiQI8lFEBHV3Ygd1xOGjNsRNR8XLrP8xCncAucaapvbfQ1TGQLujd7ITRTqQc1iGTCD9BEbkWpiZuJV1fNIp/tp5Cv9sWIxR2DfLHHodjn1UQerwd5HJJnHlMevJFo58NzkPw9Hk1mDgR0iezBXYglz5SxPJhYVCvLdS9ALHYVmvQ3U43BdtGiscl1HhInNumc9vlBVO96Qrn2HxBmlRfpExB7BpVIPJ9qn/zBct3NZf7ejuS4n7EugvJCB2j1sitNwpaXjpi8FiF1FfK5DpRJu55AxCTqA2SngsNGtkOvRmUDr0YItDlzLJInZs/1wfv65yAKW1/G59zVnaim5g9RzaRFwrby+UJicu9GVP1m4JVEC/NNqIfCb6bzzQLPQErWTxHpJUbGlag79ZY03g8glv2gtG0AiZeR8uwbCCVpvFzzs+UZvkNo/89GLXhOTNcyfipIbUKo3XJ2s3kix5Ez+C6qPRg80Gx3DqNSuscglnUUoVqbpZ1O1Vmwk9DsmrRcmzAPSteB8Eh9HCWdXZ/OM1LOIChjAiFzBiHUptAAksXPrd13rDzvjcgVuoHQA8xyL0Ycy6z64WjhnVDuZ3EziQigg6g8x07HkF/2RajCbYDI6PtgudZLiQUP1aIq6KHlerVaTc+B2BVoFef+Rdkx3kYKw+uQ+bCGubYkVBFiWJW290pqzo4HbxtH2uOvpn0GBxPOStexMjWITKa7EMWPIAQdRShVPuczCGFnIPHh7RZNf4l0gOPKfGQzDWLhXoGQ1kXcyPexeLkKLRwj0zBRxnpnuT9E8vXu9JyNFOrg8xCRXN0q27pElw8rPV6BzkL4SyQnzbat3dY1MwgZ6nHk9M35FIDsLhwj7N6PE6+CnCUW5LFUs/a9II4vf1BlsWPp83tIeZlFiy4v8MFyj3sjyrXMtAJlWTyG7Nl3IKQ4wcvWw3B5pq1U022snU+Wv61I1PhZBst1rEMM9zJbjIDMLu5FyCqo+hWN9LMRZbYIIT6MVt0tREOINYglH5HuW3fr+boZZgkb2B6VDqKc15bxfKYc6wTmyXJfH5ujM04PHUrHj5Wx3oJMsbence9CCDmWWCw59zi7NKfLXN1ZrvMuJGs9ZzvK9+zhyvasnTSW1WNIs4eqDyBHnhobIM8SLNeyxWkjdmetJHJPIaqOTyZevOqbXo8UjX8nwm8nIbb8NMJ+y3K4CaxxXlHu4/obuxYfjJD62+jdKq5dBcULbRNm+E9kF04h7nI7YsG3I2q4EU2mox53puv6+XYgRdH2pZWuaeQMuI5YVJ7vERTTrdfSPhxpwp9O28bRfD2VQLKvcxtSxPaIwF6uP7vU1qbtLVRi/iLihXI/WR7wi4iCR5ibY3ojWpl3ElTt9JKcPZ6z+KGZ5XYREl6PSv9PJjTZNchsuAR5rrYQHUi+jSjOi8DHr0BpMFeiZlpbCN/rMHLlXU+wNMeEzQKPQAthDZKN7yUm121sBsp1ICh9EiHthYQyOFjm8C9Q65rLEA7uj4qGn0XIdYuy64gcZ+jR1mYWqf85Fmkq+FXkotqFqHVtueijyiTlTAWvpI3Ib7qZiN1NEyp/HkMu3DHk4PVsucYnkGnxbiRTbGu20Gr+BHKX7S4TcDfKAX51ucea8nl/RPGfQqkc28r5TvcYQ+bFVwh2/x7UAs7iooO8OO9GuVH/ihbGDBIr5yCkG1HmQl8rf2fWnvd0RO2OQR9DaMhZQdyBuN5OwkSc7mWHfh+tzIeW3zlOuZYq5T4Y2WBvRL0EtqHVbgp7GJIf30YTa7b0o+ma1oSzZ6oXhTrW+gmUnP0eRPlZFm1AbsTzEPvsluMegRK98zNNITb3JOay5SnUO+GZhMLzSeCjCFFZlo2WuTiTqnVgBeZs9I62byLE/ABxmjeU+XJEyHOwgjCZrJ07eWAL6vv7Bar9EmeaPEUjCCmvLb+3ETbkINVIgc2VV6FVfQXxtgObMx1ERY9BMvNnysOtT9e0nK6nkjbBLEHdlyGucVc6t1sm4xFInq4r229BftxrqNrDOX5rZJqtDSON/XEE17kbvTrksjQXo1TnxfWdtpFBbPepRI7WOMpwfCvxiufMnTKiPCZrz19B1sTWtG0SWNGEUA/sQ4gCbq7td6DbbHhTufjucoNXowjHJqqxwDxIf8+KkOWATYrseLYj30jIZsEnUK+9caputjXIU3NuuucXgV9H7Dezfy8qj8VI2Iko/U5C+1yB5OULkSPjljQv1k7zNdvl92eQeMo+6luRLnA+oQh5DNbKjdDZcvxLkM17Y7o25X7jTWmcphZfZD3ynT6PMIZBLdDeieTPljQJtj+PQVGEpyHWvZ6wmYaQMJ9EC2ZTmZgPELm6s+V8G9K2z76GKrcyRa9Ecu0Yqm85WoncdVeX42ymzCJT59mIao4jlLTvIir+GIqL3pqeC8Ls8fOejKj4GUhXWFmebRyFzS5GyNxEtfmIEe+5PhKZLS9HrPu0sn1zeYZ/KWPalJ47O3iGgan/D5ycDQSREWS0AAAAAElFTkSuQmCC" alt="Takeed"/>
+      <div class="bd"><b>Takeed Academy</b><span>Assessment Portal</span></div>
+      <span class="sep" id="crumbsep" style="display:none"></span><span class="crumb" id="crumb"></span>
+    </div>
+    <div class="tabs" id="tabs">
+      <div class="tab" data-tab="assessments" onclick="goDash('assessments')">Assessments</div>
+      <div class="tab" data-tab="performance" onclick="goDash('performance')">Performance</div>
+    </div>
+    <div class="spacer"></div>
+    <div class="user"><span class="av" id="av">A</span><span id="uname">asamra</span><span class="so" onclick="signOut()">Sign out</span></div>
+  </div></div>
+  <div id="app"></div>
+  <div class="footer"><div class="wrap">
+    Takeed Academy · ISO/IEC 27001:2022 Lead Implementer · Daily Knowledge Checks · TA-ISMS-LI-QZ · V.03<br/>
+    For practice and self-assessment only — not the certification examination. © 2026 Takeed Academy.
+    <div><span class="pb"><span class="d"></span> Powered by AI Smart Portal</span></div>
+  </div></div>
+</div>
+<div id="modalRoot"></div>
+
+<script>
+/* ---------- sha256 (sync, offline) ---------- */
+function sha256(ascii){function rr(v,a){return (v>>>a)|(v<<(32-a));}var mp=Math.pow,mw=mp(2,32),res="";var w=[],bl=ascii.length*8;var h=sha256.h=sha256.h||[],k=sha256.k=sha256.k||[],pc=k.length;var cp={};for(var c=2;pc<64;c++){if(!cp[c]){for(var i=0;i<313;i+=c){cp[i]=c;}h[pc]=(mp(c,.5)*mw)|0;k[pc++]=(mp(c,1/3)*mw)|0;}}ascii+="\x80";while(ascii.length%64-56)ascii+="\x00";for(i=0;i<ascii.length;i++){var j=ascii.charCodeAt(i);if(j>>8)return;w[i>>2]|=j<<((3-i)%4)*8;}w[w.length]=((bl/mw)|0);w[w.length]=(bl);for(j=0;j<w.length;){var ww=w.slice(j,j+=16),oh=h;h=h.slice(0,8);for(i=0;i<64;i++){var w15=ww[i-15],w2=ww[i-2],a=h[0],e=h[4];var t1=h[7]+(rr(e,6)^rr(e,11)^rr(e,25))+((e&h[5])^((~e)&h[6]))+k[i]+(ww[i]=i<16?ww[i]:(ww[i-16]+(rr(w15,7)^rr(w15,18)^(w15>>>3))+ww[i-7]+(rr(w2,17)^rr(w2,19)^(w2>>>10)))|0);var t2=(rr(a,2)^rr(a,13)^rr(a,22))+((a&h[1])^(a&h[2])^(h[1]&h[2]));h=[(t1+t2)|0].concat(h);h[4]=(h[4]+t1)|0;}for(i=0;i<8;i++){h[i]=(h[i]+oh[i])|0;}}for(i=0;i<8;i++){for(j=3;j+1;j--){var b=(h[i]>>(j*8))&255;res+=((b<16)?0:"")+b.toString(16);}}return res;}
+const AUTH_HASH="78ae4cdacfa811b95a4e3c7a3c5b04ab297e5362e6ae149948cd7b28dd146dcf";
+
+/* ---------- data + state ---------- */
+const DATA=[{"title": "Day 1 Quiz", "theme": "Foundations & Context", "anchor": "qd1", "tagline": "Ten questions · self-scoring · pass mark 70%", "intro": "Concepts from ISO/IEC 27000 and the requirements of Clauses 4–5 — context, scope, leadership and policy. Scenario questions use the running case, NileTrust Financial.", "meta": [["Covers", "Clauses 4–5 · ISO/IEC 27000"], ["Workshops", "1–2"], ["Pass mark", "70% (7 / 10)"]], "questions": [{"n": 1, "stem": "Which of the following is NOT one of the three core principles of information security?", "type": "single", "options": [{"letter": "A", "text": "Confidentiality"}, {"letter": "B", "text": "Integrity"}, {"letter": "C", "text": "Availability"}, {"letter": "D", "text": "Non-repudiation"}], "correct": "D", "rationale": "Confidentiality, integrity and availability are the three pillars. Non-repudiation is a useful additional property, not one of the core three.", "domain": "ISMS Fundamentals (Cl.4)"}, {"n": 2, "stem": "In ISO/IEC 27000 terms, what best describes an information security management system (ISMS)?", "type": "single", "options": [{"letter": "A", "text": "A software platform that monitors security events"}, {"letter": "B", "text": "A set of firewalls and technical controls protecting the network"}, {"letter": "C", "text": "A systematic, risk-based set of policies, processes and controls to manage information security"}, {"letter": "D", "text": "A one-time project undertaken only to achieve certification"}], "correct": "C", "rationale": "An ISMS is a management system — a risk-based framework of policies, processes and controls — not a single tool or a one-off project.", "domain": "ISMS Fundamentals (Cl.4)"}, {"n": 3, "stem": "NileTrust Financial is establishing its ISMS. Under Clause 4.1, what must it determine first?", "type": "single", "options": [{"letter": "A", "text": "The Annex A controls it will implement"}, {"letter": "B", "text": "The external and internal issues relevant to its information security objectives"}, {"letter": "C", "text": "The budget for the certification audit"}, {"letter": "D", "text": "The penetration-testing schedule"}], "correct": "B", "rationale": "Clause 4.1 requires the organization to determine the internal and external issues relevant to its purpose and to the ISMS outcomes, before scope or controls.", "domain": "ISMS Fundamentals (Cl.4)"}, {"n": 4, "stem": "Under Clause 4.3, the scope of the ISMS must be based on all of the following EXCEPT:", "type": "single", "options": [{"letter": "A", "text": "The internal and external issues (Clause 4.1)"}, {"letter": "B", "text": "The requirements of interested parties (Clause 4.2)"}, {"letter": "C", "text": "The interfaces and dependencies with other organizations"}, {"letter": "D", "text": "The personal preferences of the IT manager"}], "correct": "D", "rationale": "Scope (4.3) is built from the issues (4.1), interested-party requirements (4.2) and interfaces/dependencies. Individual preference is irrelevant.", "domain": "Context & Scope (Cl.4)"}, {"n": 5, "stem": "Clause 5.1 requires top management to demonstrate leadership and commitment. Which is the BEST evidence of this?", "type": "single", "options": [{"letter": "A", "text": "Delegating all ISMS responsibility to the IT department"}, {"letter": "B", "text": "Ensuring the policy and objectives are established and compatible with the strategic direction"}, {"letter": "C", "text": "Attending a single kick-off meeting"}, {"letter": "D", "text": "Signing the certificate application form"}], "correct": "B", "rationale": "Clause 5.1 expects top management to ensure the policy and objectives fit the strategic direction and to integrate the ISMS into business processes.", "domain": "Leadership & Policy (Cl.5)"}, {"n": 6, "stem": "According to Clause 5.2, the information security policy must:", "type": "single", "options": [{"letter": "A", "text": "List every technical control in detail"}, {"letter": "B", "text": "Be kept confidential from staff"}, {"letter": "C", "text": "Be available as documented information and communicated within the organization"}, {"letter": "D", "text": "Be written only in the language of the certification body"}], "correct": "C", "rationale": "Clause 5.2 requires the policy to be documented, communicated within the organization, and available to interested parties as appropriate.", "domain": "Leadership & Policy (Cl.5)"}, {"n": 7, "stem": "Clause 5.3 concerns organizational roles, responsibilities and authorities. Who is responsible for assigning them?", "type": "single", "options": [{"letter": "A", "text": "The certification body"}, {"letter": "B", "text": "Top management"}, {"letter": "C", "text": "The internal auditor"}, {"letter": "D", "text": "Each employee, individually"}], "correct": "B", "rationale": "Clause 5.3 places responsibility for assigning and communicating roles, responsibilities and authorities on top management.", "domain": "Leadership & Policy (Cl.5)"}, {"n": 8, "stem": "Select all that apply. When determining the ISMS scope, NileTrust should consider which of the following?", "type": "multi", "options": [{"letter": "a", "text": "Internal and external issues"}, {"letter": "b", "text": "The requirements of interested parties"}, {"letter": "c", "text": "The favourite tools of individual engineers"}, {"letter": "d", "text": "Interfaces and dependencies with other organizations"}], "correct": ["a", "b", "d"], "rationale": "Scope considers internal/external issues, interested-party requirements, and interfaces and dependencies. Personal tool preference is not a scope input.", "domain": "Context & Scope (Cl.4)"}, {"n": 9, "stem": "A major banking client requires NileTrust to hold ISO/IEC 27001 certification. In ISMS terms, that client is best described as:", "type": "single", "options": [{"letter": "A", "text": "A nonconformity"}, {"letter": "B", "text": "An interested party with a relevant requirement"}, {"letter": "C", "text": "An internal issue"}, {"letter": "D", "text": "A risk owner"}], "correct": "B", "rationale": "A party with a requirement the ISMS must meet is an ‘interested party’ under Clause 4.2 — here, a contractual driver for certification.", "domain": "Certification & Audit (Cl.9)"}, {"n": 10, "stem": "Within the ISO/IEC 27000 family, which standard contains the certifiable requirements for an ISMS?", "type": "single", "options": [{"letter": "A", "text": "ISO/IEC 27000"}, {"letter": "B", "text": "ISO/IEC 27002"}, {"letter": "C", "text": "ISO/IEC 27001"}, {"letter": "D", "text": "ISO/IEC 27005"}], "correct": "C", "rationale": "ISO/IEC 27001 holds the certifiable requirements. 27000 is vocabulary, 27002 is control guidance, 27005 is risk-management guidance.", "domain": "ISMS Fundamentals (Cl.4)"}]}, {"title": "Day 2 Quiz", "theme": "Leadership, Planning & Risk", "anchor": "qd2", "tagline": "Ten questions · self-scoring · pass mark 70%", "intro": "The business case and leadership approval, the gap analysis, the risk assessment and treatment of Clause 6, objectives, and the Statement of Applicability. Includes a risk-scoring calculation.", "meta": [["Covers", "Clauses 5–6 · ISO/IEC 27005"], ["Workshops", "3–5"], ["Pass mark", "70% (7 / 10)"]], "questions": [{"n": 1, "stem": "Why does an ISMS implementation need top-management approval before launch?", "type": "single", "options": [{"letter": "A", "text": "Because the certification body requires a signature"}, {"letter": "B", "text": "Because management provides the mandate, resources and authority the ISMS depends on"}, {"letter": "C", "text": "Because only managers may run a risk assessment"}, {"letter": "D", "text": "It does not — implementation can proceed informally"}], "correct": "B", "rationale": "Top management gives the ISMS its mandate, resources and authority. Without that, the project stalls; the signature is a consequence, not the reason.", "domain": "Planning (Cl.6)"}, {"n": 2, "stem": "Clause 6.1.2 requires a defined information security risk assessment process that, among other things:", "type": "single", "options": [{"letter": "A", "text": "Guarantees zero risk"}, {"letter": "B", "text": "Establishes and maintains risk criteria, including risk acceptance criteria"}, {"letter": "C", "text": "Applies every Annex A control regardless of risk"}, {"letter": "D", "text": "Is performed only once, before certification"}], "correct": "B", "rationale": "Clause 6.1.2 requires a documented process that establishes and maintains risk criteria, including the criteria for accepting risk.", "domain": "Risk Management (Cl.6 / 27005)"}, {"n": 3, "stem": "NileTrust scores risk as Risk = Likelihood × Impact, each on a 1–5 scale. A threat has Likelihood = 4 and Impact = 5. What is the risk score?", "type": "single", "options": [{"letter": "A", "text": "9"}, {"letter": "B", "text": "16"}, {"letter": "C", "text": "20"}, {"letter": "D", "text": "25"}], "correct": "C", "rationale": "Risk = Likelihood × Impact = 4 × 5 = 20.", "eq": "risk", "domain": "Risk Management (Cl.6 / 27005)"}, {"n": 4, "stem": "What is the main purpose of a gap analysis at the start of implementation?", "type": "single", "options": [{"letter": "A", "text": "To issue the certificate"}, {"letter": "B", "text": "To compare current practice against the standard and identify what is missing"}, {"letter": "C", "text": "To replace the risk assessment"}, {"letter": "D", "text": "To select the auditor"}], "correct": "B", "rationale": "A gap analysis compares what exists today against the requirements of the standard, producing the to-do list for implementation.", "domain": "Planning (Cl.6)"}, {"n": 5, "stem": "Under Clause 6.1.3, after assessing risks the organization selects treatment options. Which is a valid option?", "type": "single", "options": [{"letter": "A", "text": "Ignoring the risk and hoping it does not occur"}, {"letter": "B", "text": "Modifying (reducing) the risk by applying controls"}, {"letter": "C", "text": "Deleting the risk from the register without justification"}, {"letter": "D", "text": "Reassigning blame to the risk owner"}], "correct": "B", "rationale": "Valid treatments are modify, retain, avoid and share. Applying controls to reduce a risk is ‘modify’. Ignoring or deleting without justification is not.", "domain": "Risk Management (Cl.6 / 27005)"}, {"n": 6, "stem": "The Statement of Applicability (SoA) must contain:", "type": "single", "options": [{"letter": "A", "text": "Only the controls that were excluded"}, {"letter": "B", "text": "The necessary controls, justification for inclusions and exclusions, and implementation status"}, {"letter": "C", "text": "The full text of ISO/IEC 27002"}, {"letter": "D", "text": "The penetration-test results"}], "correct": "B", "rationale": "The SoA lists the necessary controls, justifies inclusions and exclusions, and states whether each is implemented. It is the bridge from risk treatment to Annex A.", "domain": "Planning (Cl.6)"}, {"n": 7, "stem": "Clause 6.2 requires information security objectives to be:", "type": "single", "options": [{"letter": "A", "text": "Vague and aspirational"}, {"letter": "B", "text": "Set once and never measured"}, {"letter": "C", "text": "Measurable where practicable, monitored, communicated and updated as appropriate"}, {"letter": "D", "text": "Defined only by the certification body"}], "correct": "C", "rationale": "Clause 6.2 requires objectives to be measurable where practicable, monitored, communicated, and updated — not vague or static.", "domain": "Planning (Cl.6)"}, {"n": 8, "stem": "Select all that apply. Which of the following are recognised risk treatment options?", "type": "multi", "options": [{"letter": "a", "text": "Modify / reduce the risk"}, {"letter": "b", "text": "Retain / accept the risk"}, {"letter": "c", "text": "Avoid the risk"}, {"letter": "d", "text": "Deliberately increase the likelihood"}], "correct": ["a", "b", "c"], "rationale": "The four options are modify, retain, avoid and share. Deliberately increasing likelihood is not a treatment option.", "domain": "Risk Management (Cl.6 / 27005)"}, {"n": 9, "stem": "NileTrust assesses a risk that scores below its acceptance criteria. The risk owner decides to take no further action. This is an example of:", "type": "single", "options": [{"letter": "A", "text": "Risk avoidance"}, {"letter": "B", "text": "Risk modification"}, {"letter": "C", "text": "Risk retention (acceptance)"}, {"letter": "D", "text": "A nonconformity"}], "correct": "C", "rationale": "Choosing to take no further action on a risk that is within the acceptance criteria is risk retention (acceptance), recorded with the owner’s decision.", "domain": "Risk Management (Cl.6 / 27005)"}, {"n": 10, "stem": "NileTrust treats any score of 15 or above as ‘high — not acceptable’. A risk scores Likelihood 3 × Impact 4. How should it be classified?", "type": "single", "options": [{"letter": "A", "text": "High — not acceptable"}, {"letter": "B", "text": "Below the high threshold — acceptable, subject to the acceptance criteria"}, {"letter": "C", "text": "It cannot be determined"}, {"letter": "D", "text": "Automatically transferred"}], "correct": "B", "rationale": "3 × 4 = 12, which is below the 15 ‘high’ threshold, so it is acceptable subject to the documented acceptance criteria.", "eq": "risk", "domain": "Risk Management (Cl.6 / 27005)"}]}, {"title": "Day 3 Quiz", "theme": "Support, Operation & Controls", "anchor": "qd3", "tagline": "Ten questions · self-scoring · pass mark 70%", "intro": "Clause 7 support (competence, awareness, documented information), Clause 8 operation, and the four Annex A control themes — organizational, people, physical and technological (A.5–A.8).", "meta": [["Covers", "Clauses 7–8 · Annex A"], ["Workshops", "6–10"], ["Pass mark", "70% (7 / 10)"]], "questions": [{"n": 1, "stem": "Clause 7.2 (Competence) requires the organization to:", "type": "single", "options": [{"letter": "A", "text": "Employ only certified auditors"}, {"letter": "B", "text": "Determine the competence needed, ensure persons are competent, and retain evidence"}, {"letter": "C", "text": "Train everyone identically, regardless of role"}, {"letter": "D", "text": "Outsource all security work"}], "correct": "B", "rationale": "Clause 7.2 requires determining needed competence, ensuring people are competent (by education, training or experience), and keeping evidence.", "domain": "Support (Cl.7)"}, {"n": 2, "stem": "Clause 7.5 concerns documented information. Which statement is correct?", "type": "single", "options": [{"letter": "A", "text": "More documents always mean a better ISMS"}, {"letter": "B", "text": "Documented information must be controlled — available, protected, and managed for access and version"}, {"letter": "C", "text": "Documents never need updating once approved"}, {"letter": "D", "text": "Only the policy needs to be documented"}], "correct": "B", "rationale": "Clause 7.5 requires documented information to be controlled — available and suitable for use, and protected, with managed distribution, access and versioning.", "domain": "Support (Cl.7)"}, {"n": 3, "stem": "Annex A of ISO/IEC 27001:2022 organizes controls into how many themes, and how many controls in total?", "type": "single", "options": [{"letter": "A", "text": "14 themes, 114 controls"}, {"letter": "B", "text": "4 themes, 93 controls"}, {"letter": "C", "text": "4 themes, 114 controls"}, {"letter": "D", "text": "11 themes, 93 controls"}], "correct": "B", "rationale": "The 2022 revision restructured Annex A into 4 themes and 93 controls (down from 14 categories and 114).", "domain": "Annex A Controls"}, {"n": 4, "stem": "Which Annex A theme covers organizational controls?", "type": "single", "options": [{"letter": "A", "text": "A.5"}, {"letter": "B", "text": "A.6"}, {"letter": "C", "text": "A.7"}, {"letter": "D", "text": "A.8"}], "correct": "A", "rationale": "A.5 = Organizational controls (the largest theme).", "domain": "Annex A Controls"}, {"n": 5, "stem": "The People controls are found in which Annex A theme?", "type": "single", "options": [{"letter": "A", "text": "A.5"}, {"letter": "B", "text": "A.6"}, {"letter": "C", "text": "A.7"}, {"letter": "D", "text": "A.8"}], "correct": "B", "rationale": "A.6 = People controls (screening, terms, awareness, disciplinary process, remote working).", "domain": "Annex A Controls"}, {"n": 6, "stem": "Physical controls — for example physical entry and securing offices — belong to:", "type": "single", "options": [{"letter": "A", "text": "A.5"}, {"letter": "B", "text": "A.6"}, {"letter": "C", "text": "A.7"}, {"letter": "D", "text": "A.8"}], "correct": "C", "rationale": "A.7 = Physical controls (physical entry, securing offices, equipment, clear desk).", "domain": "Annex A Controls"}, {"n": 7, "stem": "Technological controls — for example access control, cryptography and logging — belong to:", "type": "single", "options": [{"letter": "A", "text": "A.5"}, {"letter": "B", "text": "A.6"}, {"letter": "C", "text": "A.7"}, {"letter": "D", "text": "A.8"}], "correct": "D", "rationale": "A.8 = Technological controls (access control, cryptography, logging, malware protection, secure development).", "domain": "Annex A Controls"}, {"n": 8, "stem": "Select all that apply. Which of the following are organizational (A.5) controls?", "type": "multi", "options": [{"letter": "a", "text": "Information security policies"}, {"letter": "b", "text": "Threat intelligence"}, {"letter": "c", "text": "Equipment siting and protection"}, {"letter": "d", "text": "Information security roles and responsibilities"}], "correct": ["a", "b", "d"], "rationale": "Policies (A.5.1), threat intelligence (A.5.7) and roles & responsibilities (A.5.2) are organizational. Equipment siting is physical (A.7).", "domain": "Annex A Controls"}, {"n": 9, "stem": "Clause 8.1 (Operational planning and control) requires the organization to:", "type": "single", "options": [{"letter": "A", "text": "Plan, implement and control the processes needed to meet requirements and treat risks"}, {"letter": "B", "text": "Stop all operations during certification"}, {"letter": "C", "text": "Document only the controls that are convenient"}, {"letter": "D", "text": "Delegate all operations to the auditor"}], "correct": "A", "rationale": "Clause 8.1 requires planning, implementing and controlling the processes needed to meet requirements and to implement risk treatment.", "domain": "Annex A Controls"}, {"n": 10, "stem": "NileTrust's risk assessment identifies a high risk of unauthorized access to its banking application. Which Annex A theme is MOST directly relevant?", "type": "single", "options": [{"letter": "A", "text": "A.7 Physical controls"}, {"letter": "B", "text": "A.8 Technological controls (access control, authentication)"}, {"letter": "C", "text": "A.5 only"}, {"letter": "D", "text": "None — controls are chosen at random"}], "correct": "B", "rationale": "Unauthorized application access is addressed primarily by technological controls in A.8 — selected because the risk assessment pointed there.", "domain": "Annex A Controls"}]}, {"title": "Day 4 Quiz", "theme": "Performance & Improvement", "anchor": "qd4", "tagline": "Ten questions · self-scoring · pass mark 70%", "intro": "Clause 9 performance evaluation — monitoring and measurement, internal audit, management review — and Clause 10 improvement, nonconformity, corrective action and the 5 Whys. Includes a maturity calculation.", "meta": [["Covers", "Clauses 9–10"], ["Workshops", "11–14"], ["Pass mark", "70% (7 / 10)"]], "questions": [{"n": 1, "stem": "Clause 9.1 (Monitoring, measurement, analysis and evaluation) requires the organization to determine:", "type": "single", "options": [{"letter": "A", "text": "Only the cost of the ISMS"}, {"letter": "B", "text": "What to monitor and measure, the methods, when, and who evaluates the results"}, {"letter": "C", "text": "The auditor's salary"}, {"letter": "D", "text": "Nothing — measurement is optional"}], "correct": "B", "rationale": "Clause 9.1 requires deciding what to monitor and measure, the methods that give valid results, when, and who analyses and evaluates them.", "domain": "Performance Evaluation (Cl.9)"}, {"n": 2, "stem": "NileTrust's SoA lists 80 applicable controls, of which 60 are fully implemented. What is the implementation maturity?", "type": "single", "options": [{"letter": "A", "text": "60%"}, {"letter": "B", "text": "75%"}, {"letter": "C", "text": "80%"}, {"letter": "D", "text": "133%"}], "correct": "B", "rationale": "Maturity = implemented ÷ applicable × 100 = 60 ÷ 80 × 100 = 75%.", "eq": "maturity", "domain": "Annex A Controls"}, {"n": 3, "stem": "Clause 9.2 (Internal audit) requires audits to be conducted:", "type": "single", "options": [{"letter": "A", "text": "Only once, just before certification"}, {"letter": "B", "text": "At planned intervals, to check the ISMS conforms and is effectively implemented"}, {"letter": "C", "text": "By the certification body only"}, {"letter": "D", "text": "Whenever convenient, with no programme"}], "correct": "B", "rationale": "Clause 9.2 requires an audit programme at planned intervals to confirm the ISMS conforms to the standard and the organization’s own requirements and is effective.", "domain": "Performance Evaluation (Cl.9)"}, {"n": 4, "stem": "To preserve objectivity and impartiality, internal auditors should:", "type": "single", "options": [{"letter": "A", "text": "Audit their own work"}, {"letter": "B", "text": "Not audit their own work"}, {"letter": "C", "text": "Be the people who implemented the controls"}, {"letter": "D", "text": "Report only to the audited department"}], "correct": "B", "rationale": "Objectivity and impartiality require that auditors do not audit their own work.", "domain": "Performance Evaluation (Cl.9)"}, {"n": 5, "stem": "Which of the following is NOT a required input to management review (Clause 9.3)?", "type": "single", "options": [{"letter": "A", "text": "Status of actions from previous reviews"}, {"letter": "B", "text": "Feedback on performance, including nonconformities and audit results"}, {"letter": "C", "text": "Results of risk assessment and status of the risk treatment plan"}, {"letter": "D", "text": "Opinions of the auditor unrelated to any evidence"}], "correct": "D", "rationale": "Review inputs are defined by Clause 9.3 and are evidence-based. Personal opinions unrelated to evidence are not an input.", "domain": "Performance Evaluation (Cl.9)"}, {"n": 6, "stem": "Under Clause 10, corrective action is best described as:", "type": "single", "options": [{"letter": "A", "text": "The immediate fix to the symptom"}, {"letter": "B", "text": "Action to eliminate the cause of a nonconformity so it does not recur"}, {"letter": "C", "text": "Ignoring the nonconformity"}, {"letter": "D", "text": "Issuing the certificate"}], "correct": "B", "rationale": "Corrective action removes the cause of a nonconformity so it does not recur — distinct from the immediate fix.", "domain": "Improvement (Cl.10)"}, {"n": 7, "stem": "A correction (as distinct from corrective action) is:", "type": "single", "options": [{"letter": "A", "text": "Removal of the root cause"}, {"letter": "B", "text": "The immediate action to fix or contain the detected problem"}, {"letter": "C", "text": "A management review input"}, {"letter": "D", "text": "A type of audit"}], "correct": "B", "rationale": "A correction is the immediate action to fix or contain the problem; corrective action addresses the underlying cause.", "domain": "Improvement (Cl.10)"}, {"n": 8, "stem": "Select all that apply. Which of the following are required inputs to management review?", "type": "multi", "options": [{"letter": "a", "text": "Status of actions from previous management reviews"}, {"letter": "b", "text": "Changes in external and internal issues relevant to the ISMS"}, {"letter": "c", "text": "The colour scheme of the audit report"}, {"letter": "d", "text": "Results of monitoring, measurement and audits"}], "correct": ["a", "b", "d"], "rationale": "Required inputs include prior-action status, changes in issues, and monitoring/measurement/audit results. Report styling is not an input.", "domain": "Performance Evaluation (Cl.9)"}, {"n": 9, "stem": "NileTrust suffers a repeat incident. Using 5 Whys, the team keeps asking ‘why?’ until it reaches:", "type": "single", "options": [{"letter": "A", "text": "The first convenient answer"}, {"letter": "B", "text": "The person to blame"}, {"letter": "C", "text": "The underlying root cause of the nonconformity"}, {"letter": "D", "text": "The certification decision"}], "correct": "C", "rationale": "5 Whys drives past symptoms and blame to the underlying root cause, which corrective action then eliminates.", "domain": "Performance & Improvement (Cl.9–10)"}, {"n": 10, "stem": "Continual improvement (Clause 10.2) means the organization should:", "type": "single", "options": [{"letter": "A", "text": "Improve the suitability, adequacy and effectiveness of the ISMS continually"}, {"letter": "B", "text": "Stop improving once certified"}, {"letter": "C", "text": "Improve only when the auditor demands it"}, {"letter": "D", "text": "Replace the ISMS every year"}], "correct": "A", "rationale": "Clause 10.2 requires continually improving the suitability, adequacy and effectiveness of the ISMS — not stopping at certification.", "domain": "Improvement (Cl.10)"}]}, {"title": "Day 5 Quiz", "theme": "Certification Readiness & Final Mock", "anchor": "qd5", "tagline": "Ten questions · self-scoring · pass mark 70%", "intro": "Stage 1 and Stage 2 of the certification audit, the examination regulations and the three-year cycle, plus a cumulative mock that draws on every clause from Days 1–4.", "meta": [["Covers", "All clauses · audit"], ["Format", "Cumulative mock"], ["Pass mark", "70% (7 / 10)"]], "questions": [{"n": 1, "stem": "In a certification audit, what is the main purpose of Stage 1?", "type": "single", "options": [{"letter": "A", "text": "To issue the certificate"}, {"letter": "B", "text": "To review documentation and readiness, and plan Stage 2"}, {"letter": "C", "text": "To test every employee"}, {"letter": "D", "text": "To replace the internal audit"}], "correct": "B", "rationale": "Stage 1 reviews the documented ISMS and the organization’s readiness, confirms scope, and plans Stage 2. It does not issue the certificate.", "domain": "Certification & Audit (Cl.9)"}, {"n": 2, "stem": "Stage 2 of the certification audit focuses on:", "type": "single", "options": [{"letter": "A", "text": "Only reviewing documents"}, {"letter": "B", "text": "Evaluating the implementation and effectiveness of the ISMS in practice"}, {"letter": "C", "text": "Selling consulting services"}, {"letter": "D", "text": "The Stage 1 findings, and nothing else"}], "correct": "B", "rationale": "Stage 2 evaluates the implementation and effectiveness of the ISMS on site — evidence that controls operate and the system works.", "domain": "Certification & Audit (Cl.9)"}, {"n": 3, "stem": "The requirement to determine interested parties and their requirements is found in:", "type": "single", "options": [{"letter": "A", "text": "Clause 4.2"}, {"letter": "B", "text": "Clause 9.2"}, {"letter": "C", "text": "Annex A.8"}, {"letter": "D", "text": "Clause 10.1"}], "correct": "A", "rationale": "Clause 4.2 requires determining interested parties relevant to the ISMS and their requirements.", "domain": "Context & Scope (Cl.4)"}, {"n": 4, "stem": "Risk acceptance criteria are established as part of:", "type": "single", "options": [{"letter": "A", "text": "The internal audit"}, {"letter": "B", "text": "The risk assessment process (Clause 6.1.2)"}, {"letter": "C", "text": "The management review"}, {"letter": "D", "text": "The certificate"}], "correct": "B", "rationale": "Risk acceptance criteria are set within the risk assessment process defined under Clause 6.1.2.", "domain": "Risk Management (Cl.6 / 27005)"}, {"n": 5, "stem": "Cryptography and secure authentication controls are found in Annex A theme:", "type": "single", "options": [{"letter": "A", "text": "A.5"}, {"letter": "B", "text": "A.6"}, {"letter": "C", "text": "A.7"}, {"letter": "D", "text": "A.8"}], "correct": "D", "rationale": "Cryptography and secure authentication are technological controls, in Annex A theme A.8.", "domain": "Annex A Controls"}, {"n": 6, "stem": "According to the Takeed examination regulations, the examination comprises:", "type": "single", "options": [{"letter": "A", "text": "50 questions, 60 minutes, 50% to pass"}, {"letter": "B", "text": "100 questions, 120 minutes, 70% to pass"}, {"letter": "C", "text": "20 questions, 30 minutes, 100% to pass"}, {"letter": "D", "text": "An interview only"}], "correct": "B", "rationale": "The Takeed examination is 100 questions in 120 minutes, with a 70% pass mark, delivered on ClassMarker.", "domain": "Certification Readiness"}, {"n": 7, "stem": "After certification, the certificate is typically valid for three years, subject to:", "type": "single", "options": [{"letter": "A", "text": "No further checks"}, {"letter": "B", "text": "Surveillance audits during the cycle"}, {"letter": "C", "text": "Re-sitting the examination monthly"}, {"letter": "D", "text": "A new gap analysis each week"}], "correct": "B", "rationale": "Certificates are valid for three years, maintained through surveillance audits (typically annual) and a recertification audit at the end of the cycle.", "domain": "Certification & Audit (Cl.9)"}, {"n": 8, "stem": "Select all that apply. Which are objectives of a Stage 1 audit?", "type": "multi", "options": [{"letter": "a", "text": "Review the ISMS documented information"}, {"letter": "b", "text": "Evaluate readiness for Stage 2"}, {"letter": "c", "text": "Issue the final certificate"}, {"letter": "d", "text": "Confirm scope, and that internal audit and management review were performed"}], "correct": ["a", "b", "d"], "rationale": "Stage 1 reviews documentation, evaluates readiness for Stage 2, and confirms scope plus that internal audit and management review have run. The certificate is not issued at Stage 1.", "domain": "Planning (Cl.6)"}, {"n": 9, "stem": "NileTrust's internal audit found two minor nonconformities, now with corrective-action plans underway. For the certification audit, NileTrust is:", "type": "single", "options": [{"letter": "A", "text": "Not ready — any nonconformity blocks certification forever"}, {"letter": "B", "text": "Reasonably ready — minor nonconformities with credible corrective actions are normal and manageable"}, {"letter": "C", "text": "Required to restart the whole ISMS"}, {"letter": "D", "text": "Exempt from Stage 2"}], "correct": "B", "rationale": "Minor nonconformities with credible corrective-action plans are normal at this stage and do not, by themselves, prevent certification.", "domain": "Performance Evaluation (Cl.9)"}, {"n": 10, "stem": "When a nonconformity is raised, the correct sequence is:", "type": "single", "options": [{"letter": "A", "text": "Correct it, determine the cause, take corrective action, then review effectiveness"}, {"letter": "B", "text": "Ignore it until the next audit"}, {"letter": "C", "text": "Issue the certificate, then investigate"}, {"letter": "D", "text": "Reassign blame to the auditor"}], "correct": "A", "rationale": "The sequence is: correct/contain the problem, determine the cause, take corrective action to prevent recurrence, then review the action’s effectiveness.", "domain": "Improvement (Cl.10)"}]}];
+const PASS=70;
+let state={view:"login",tab:"assessments",day:0,mode:"exam",qorder:[],qi:0,answers:{},flags:new Set(),isRetry:false,elapsed:0,reviewFilter:"all",shuffle:false};
+let attempts={};       // dayIdx -> result (full only)
+let reviewResult=null; // result currently shown in review
+let timerInt=null;
+
+/* sessionStorage (best-effort; downloaded file) */
+function saveAtt(){try{sessionStorage.setItem("tk_att",JSON.stringify(attempts));}catch(e){}}
+function loadAtt(){try{const r=sessionStorage.getItem("tk_att");if(r)attempts=JSON.parse(r);}catch(e){}}
+
+/* ---------- scoring ---------- */
+function setEq(a,b){if(!a||!b)return false;if(a.size!==b.length)return false;for(const x of b){if(!a.has(x))return false;}return true;}
+function isCorrect(q,ans){if(q.type==="multi")return setEq(ans instanceof Set?ans:null,q.correct);return ans&&String(ans).toUpperCase()===String(q.correct).toUpperCase();}
+function answered(q,ans){return q.type==="multi"?(ans&&ans.size>0):!!ans;}
+function fmt(s){s=Math.max(0,Math.round(s));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");}
+function dayCov(d){return d.meta&&d.meta[0]?d.meta[0][1]:"";}
+
+/* ---------- auth ---------- */
+function tryLogin(){const u=(document.getElementById("u").value||"").trim().toLowerCase();const p=document.getElementById("p").value||"";if(!u||!p){err();return;}if(sha256(u+":"+p)===AUTH_HASH){document.getElementById("uname").textContent=u;document.getElementById("av").textContent=u.charAt(0).toUpperCase();document.getElementById("login").classList.add("hidden");document.getElementById("shell").classList.remove("hidden");loadAtt();goDash("assessments");}else err();}
+function err(){document.getElementById("loginErr").classList.add("show");}
+function signOut(){stopTimer();attempts=attempts;document.getElementById("p").value="";document.getElementById("loginErr").classList.remove("show");document.getElementById("shell").classList.add("hidden");document.getElementById("login").classList.remove("hidden");document.getElementById("u").focus();}
+document.getElementById("loginBtn").addEventListener("click",tryLogin);
+document.getElementById("p").addEventListener("keydown",e=>{if(e.key==="Enter")tryLogin();});
+document.getElementById("u").addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("p").focus();});
+document.getElementById("pwT").addEventListener("click",function(){const p=document.getElementById("p");const s=p.type==="password";p.type=s?"text":"password";this.textContent=s?"Hide":"Show";});
+
+/* ---------- navigation ---------- */
+function setCrumb(t){const c=document.getElementById("crumb"),s=document.getElementById("crumbsep");if(t){c.textContent=t;c.style.display="";s.style.display="";}else{c.style.display="none";s.style.display="none";}}
+function setTabs(show,active){document.getElementById("tabs").style.display=show?"":"none";document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.tab===active));}
+function goDash(tab){stopTimer();state.view="dash";state.tab=tab;setTabs(true,tab);setCrumb(null);render();window.scrollTo(0,0);}
+
+/* ---------- exam ---------- */
+function startExam(day,mode){
+  state.view="exam";state.day=day;state.mode=mode;state.isRetry=false;
+  let order=DATA[day].questions.map((_,i)=>i);
+  if(state.shuffle)order=shuffle(order);
+  state.qorder=order;state.qi=0;state.answers={};state.flags=new Set();state.elapsed=0;
+  state.checked=new Set(); // practice-mode revealed questions
+  setTabs(false);setCrumb(DATA[day].theme);startTimer();render();window.scrollTo(0,0);
+}
+function retryIncorrect(){
+  const res=reviewResult;if(!res)return;
+  const d=DATA[res.day];
+  const bad=res.order.filter(idx=>!isCorrect(d.questions[idx],reAns(res.answers[idx])));
+  if(!bad.length){goDash("assessments");return;}
+  state.view="exam";state.day=res.day;state.mode="practice";state.isRetry=true;
+  state.qorder=bad;state.qi=0;state.answers={};state.flags=new Set();state.elapsed=0;state.checked=new Set();
+  setTabs(false);setCrumb(DATA[res.day].theme+" · Retry");startTimer();render();window.scrollTo(0,0);
+}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function curQ(){return DATA[state.day].questions[state.qorder[state.qi]];}
+function curIdx(){return state.qorder[state.qi];}
+function gotoQ(i){state.qi=Math.max(0,Math.min(state.qorder.length-1,i));render();window.scrollTo(0,0);}
+function pick(letter){
+  const q=curQ(),idx=curIdx();
+  if(state.mode==="practice"&&state.checked.has(idx))return; // locked after feedback
+  if(q.type==="multi"){let s=state.answers[idx] instanceof Set?state.answers[idx]:new Set();s.has(letter)?s.delete(letter):s.add(letter);state.answers[idx]=s;}
+  else{state.answers[idx]=letter;}
+  if(state.mode==="practice"&&q.type!=="multi"){state.checked.add(idx);} // single: reveal immediately
+  renderExam();
+}
+function practiceCheck(){const idx=curIdx();if(answered(curQ(),state.answers[idx])){state.checked.add(idx);renderExam();}}
+function toggleFlag(){const idx=curIdx();state.flags.has(idx)?state.flags.delete(idx):state.flags.add(idx);renderExam();}
+function startTimer(){stopTimer();const t0=Date.now()-state.elapsed*1000;timerInt=setInterval(()=>{state.elapsed=(Date.now()-t0)/1000;const el=document.getElementById("timer");if(el)el.textContent=fmt(state.elapsed);},1000);}
+function stopTimer(){if(timerInt){clearInterval(timerInt);timerInt=null;}}
+
+/* submit */
+function openSubmit(){
+  const d=DATA[state.day];const order=state.qorder;
+  let ans=0;order.forEach(idx=>{if(answered(d.questions[idx],state.answers[idx]))ans++;});
+  const un=order.length-ans;const fl=state.flags.size;
+  showModal(`
+    <h3>Submit assessment?</h3>
+    <p>Once submitted, your answers are scored and you cannot change them.</p>
+    ${un>0?`<div class="warn">⚠ ${un} question${un>1?"s":""} still unanswered — these will be marked incorrect.</div>`:""}
+    <div class="sm">
+      <div class="b"><div class="kk">Answered</div><div class="vv">${ans}/${order.length}</div></div>
+      <div class="b"><div class="kk">Flagged</div><div class="vv">${fl}</div></div>
+      <div class="b"><div class="kk">Time</div><div class="vv mono">${fmt(state.elapsed)}</div></div>
+    </div>
+    <div class="acts"><button class="btn" onclick="closeModal()">Keep working</button><button class="btn btn-dark" onclick="confirmSubmit()">Submit &amp; score</button></div>
+  `);
+}
+function confirmSubmit(){closeModal();stopTimer();finalize();state.view="review";state.reviewFilter="all";setTabs(false);setCrumb(DATA[state.day].theme+" · Results");render();window.scrollTo(0,0);}
+function finalize(){
+  const d=DATA[state.day],order=state.qorder;let correct=0;const byDom={};
+  const ansCopy={};
+  order.forEach(idx=>{
+    const q=d.questions[idx];const a=state.answers[idx];
+    ansCopy[idx]=a instanceof Set?["__set__",...a]:(a||null);
+    const ok=isCorrect(q,a);if(ok)correct++;
+    const dm=q.domain;(byDom[dm]=byDom[dm]||{c:0,t:0}).t++;if(ok)byDom[dm].c++;
+  });
+  const total=order.length,pct=Math.round(correct/total*100),pass=pct>=PASS;
+  const res={day:state.day,order:order.slice(),answers:ansCopy,flags:[...state.flags],correct,total,pct,pass,timeSec:Math.round(state.elapsed),byDom,isRetry:state.isRetry,full:(total===d.questions.length&&!state.isRetry),date:Date.now()};
+  reviewResult=res;
+  if(res.full){attempts[state.day]=res;saveAtt();}
+}
+function reAns(a){if(Array.isArray(a)&&a[0]==="__set__"){return new Set(a.slice(1));}return a;}
+
+/* ---------- RENDER ---------- */
+function render(){
+  const app=document.getElementById("app");
+  if(state.view==="dash")app.innerHTML=(state.tab==="assessments"?renderAssess():renderPerf());
+  else if(state.view==="exam")app.innerHTML=renderExamShell();
+  else if(state.view==="review")app.innerHTML=renderReview();
+  if(state.view==="exam"){startTimer();}
+}
+
+/* ----- Assessments dashboard ----- */
+function aggregate(){
+  const full=Object.values(attempts).filter(a=>a.full);
+  let tc=0,tt=0,passed=0,time=0;const dom={};
+  full.forEach(a=>{tc+=a.correct;tt+=a.total;if(a.pass)passed++;time+=a.timeSec;
+    for(const k in a.byDom){(dom[k]=dom[k]||{c:0,t:0}).c+=a.byDom[k].c;dom[k].t+=a.byDom[k].t;}});
+  const overall=tt?Math.round(tc/tt*100):0;
+  return {full,count:full.length,overall,passed,avg:full.length?Math.round(full.reduce((s,a)=>s+a.pct,0)/full.length):0,time,dom};
+}
+function renderAssess(){
+  const ag=aggregate();
+  const cards=DATA.map((d,i)=>{
+    const a=attempts[i];
+    const status=a?(a.pass?`<span class="statusdot pass">Passed</span>`:`<span class="statusdot rev">Review</span>`):`<span class="statusdot new">Not started</span>`;
+    const sl=a?`<div class="scoreline">
+        <div class="b"><div class="kk">Last score</div><div class="vv">${a.pct}%</div></div>
+        <div class="b"><div class="kk">Correct</div><div class="vv">${a.correct}/${a.total}</div></div>
+        <div class="b"><div class="kk">Time</div><div class="vv mono">${fmt(a.timeSec)}</div></div>
+      </div>`:`<div class="scoreline"><div class="b"><div class="kk">Questions</div><div class="vv">10</div></div><div class="b"><div class="kk">Pass mark</div><div class="vv">70%</div></div><div class="b"><div class="kk">Format</div><div class="vv" style="font-size:13px">MCQ</div></div></div>`;
+    return `<div class="examcard">
+      <div class="hl"><div><div class="no">Assessment ${i+1}</div><h3>${d.theme}</h3><div class="cov">Covers ${dayCov(d)}</div></div>${status}</div>
+      ${sl}
+      <div class="meta">${(d.meta||[]).map(m=>`<span class="tag">${m[0]}: ${m[1]}</span>`).join("")}</div>
+      <div class="acts">
+        <button class="btn btn-dark" onclick="startExam(${i},'exam')">${a?"Retake exam":"Start exam"}</button>
+        <button class="btn" onclick="startExam(${i},'practice')">Practice</button>
+        ${a?`<button class="btn btn-ghost" onclick="openReview(${i})">View results</button>`:""}
+      </div>
+    </div>`;
+  }).join("");
+  const readyLbl=ag.count===0?"—":(ag.overall>=PASS?"Exam-ready":"In progress");
+  return `<div class="page wrap">
+    <div class="phead"><div class="ml">Candidate dashboard</div><h1>My Assessments</h1><p>Complete all five assessments to gauge your readiness for the ISO/IEC 27001:2022 Lead Implementer examination.</p></div>
+    <div class="kpis">
+      <div class="kpi dark"><div class="k">Overall readiness</div><div class="v">${ag.overall}<small>%</small></div><div class="sub">${readyLbl}${ag.count?` · ${ag.count}/5 attempted`:""}</div></div>
+      <div class="kpi"><div class="k">Assessments passed</div><div class="v">${ag.passed}<small>/5</small></div><div class="sub">≥ 70% to pass</div></div>
+      <div class="kpi"><div class="k">Average score</div><div class="v">${ag.avg}<small>%</small></div><div class="sub">across attempts</div></div>
+      <div class="kpi"><div class="k">Time invested</div><div class="v mono" style="font-size:26px">${fmt(ag.time)}</div><div class="sub">total elapsed</div></div>
+    </div>
+    <div class="sectlbl"><h3>Assessments</h3><div class="ln"></div>
+      <div class="opt" onclick="toggleShuffle()"><span>Shuffle questions</span><span class="sw ${state.shuffle?'on':''}" id="shsw"></span></div>
+    </div>
+    <div class="examgrid">${cards}</div>
+  </div>`;
+}
+function toggleShuffle(){state.shuffle=!state.shuffle;const s=document.getElementById("shsw");if(s)s.classList.toggle("on",state.shuffle);}
+
+/* ----- Performance dashboard ----- */
+function renderPerf(){
+  const ag=aggregate();
+  if(ag.count===0){
+    return `<div class="page wrap"><div class="phead"><div class="ml">Analytics</div><h1>Performance &amp; Readiness</h1><p>Clause-level analytics appear here once you complete an assessment.</p></div>
+      <div class="panel"><div class="empty"><div class="big">No attempts yet</div><div class="sm">Complete an assessment to unlock your readiness score, clause mastery, and focus recommendations.</div><div style="margin-top:18px"><button class="btn btn-dark" onclick="goDash('assessments')">Go to assessments</button></div></div></div></div>`;
+  }
+  const doms=Object.entries(ag.dom).map(([k,v])=>({k,pct:Math.round(v.c/v.t*100),c:v.c,t:v.t})).sort((a,b)=>a.pct-b.pct);
+  const bars=doms.map(d=>{const cl=d.pct>=70?'ok':(d.pct>=50?'mid':'no');return `<div class="barrow"><div class="nm">${d.k}</div><div class="val">${d.pct}% <small>· ${d.c}/${d.t}</small></div><div class="track"><div class="fill ${cl}" style="width:${d.pct}%"></div></div></div>`;}).join("");
+  const weak=doms.filter(d=>d.pct<70).slice(0,4);
+  const strong=doms.filter(d=>d.pct>=70).slice(-3).reverse();
+  const reco=weak.length?weak.map(d=>`<div class="item"><div class="ic" style="background:var(--no)">!</div><div class="tx">Revisit <b>${d.k}</b> — ${d.c}/${d.t} correct (${d.pct}%). Re-read the related clause and retry the questions.</div></div>`).join(""):`<div class="item"><div class="ic" style="background:var(--ok)">✓</div><div class="tx">No weak areas — every clause domain is at or above the 70% threshold. <b>You are tracking exam-ready.</b></div></div>`;
+  const trend=ag.full.slice().sort((a,b)=>a.date-b.date).map(a=>`<div class="barrow"><div class="nm">${DATA[a.day].theme}</div><div class="val">${a.pct}% <small>· ${a.pass?'Pass':'Review'}</small></div><div class="track"><div class="fill ${a.pass?'ok':'no'}" style="width:${a.pct}%"></div></div></div>`).join("");
+  return `<div class="page wrap">
+    <div class="phead"><div class="ml">Analytics</div><h1>Performance &amp; Readiness</h1><p>Your results aggregated to the clauses and domains of ISO/IEC 27001:2022.</p></div>
+    <div class="grid2">
+      <div class="panel" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+        <div class="ring" style="--sz:152px;--p:${ag.overall};--c:${ag.overall>=PASS?'var(--ok)':'var(--ink)'}"><div class="in"><div class="pc">${ag.overall}%</div><div class="lb">Readiness</div></div></div>
+        <div style="margin-top:16px;font-size:15px;font-weight:800">${ag.overall>=PASS?'Exam-ready':'Keep practising'}</div>
+        <div style="font-size:12.5px;color:var(--muted);margin-top:4px;max-width:230px;line-height:1.6">${ag.overall>=PASS?'Your aggregate score meets the 70% pass mark across attempted assessments.':'Aggregate score is below the 70% pass mark. Focus on the areas below.'}</div>
+        <div style="display:flex;gap:22px;margin-top:18px;padding-top:16px;border-top:1px solid var(--line);width:100%;justify-content:center">
+          <div><div class="ml" style="font-size:9px">Passed</div><div style="font-size:18px;font-weight:800;margin-top:3px">${ag.passed}/5</div></div>
+          <div><div class="ml" style="font-size:9px">Avg score</div><div style="font-size:18px;font-weight:800;margin-top:3px">${ag.avg}%</div></div>
+          <div><div class="ml" style="font-size:9px">Time</div><div class="mono" style="font-size:18px;font-weight:800;margin-top:3px">${fmt(ag.time)}</div></div>
+        </div>
+      </div>
+      <div class="panel"><h4>Mastery by clause / domain</h4><div class="bars">${bars}</div></div>
+    </div>
+    <div class="grid2" style="margin-top:16px">
+      <div class="panel"><h4>Focus recommendations</h4><div class="reco">${reco}</div></div>
+      <div class="panel"><h4>Score by assessment</h4><div class="bars">${trend}</div></div>
+    </div>
+  </div>`;
+}
+
+/* ----- Exam runner ----- */
+function renderExamShell(){
+  return `<div class="exambar"><div class="wrap row">
+      <div class="nm">${DATA[state.day].theme}<small>ISO/IEC 27001:2022 Lead Implementer · Assessment ${state.day+1}${state.isRetry?" · Retry":""}</small></div>
+      <div class="spacer"></div>
+      <span class="modechip ${state.mode==='practice'?'practice':''}">${state.mode==='practice'?'Practice mode':'Exam mode'}</span>
+      <span class="timer"><span class="dotpulse"></span><span class="mono" id="timer">${fmt(state.elapsed)}</span></span>
+      <button class="btn btn-sm" onclick="confirmExit()">Exit</button>
+    </div></div>
+    <div class="wrap"><div class="examlayout">
+      <div class="qpanel" id="qpanel">${renderQuestion()}</div>
+      <div id="side">${renderSide()}</div>
+    </div></div>`;
+}
+function renderExam(){const q=document.getElementById("qpanel");if(q)q.innerHTML=renderQuestion();const s=document.getElementById("side");if(s)s.innerHTML=renderSide();}
+function renderQuestion(){
+  const q=curQ(),idx=curIdx();const ans=state.answers[idx];const isMulti=q.type==="multi";
+  const showFb=state.mode==="practice"&&state.checked.has(idx);
+  const eq=q.eq==="risk"?`<div class="eq"><span class="lb">Risk scoring</span><span class="ex"><span class="r">Risk</span><span class="op">=</span>Likelihood<span class="op">×</span>Impact</span></div>`:q.eq==="maturity"?`<div class="eq"><span class="lb">Maturity</span><span class="ex"><span class="r">Maturity %</span><span class="op">=</span>Implemented<span class="op">÷</span>Applicable<span class="op">×</span>100</span></div>`:"";
+  const opts=q.options.map(o=>{
+    const sel=isMulti?(ans&&ans.has(o.letter)):(ans===o.letter);
+    let cls="opt "+(isMulti?"multi":"single");let mk=isMulti?(sel?"✓":""):o.letter;let bdg="";
+    if(showFb){cls+=" locked";const cor=(isMulti?q.correct:[String(q.correct).toLowerCase()]).map(x=>x.toLowerCase()).includes(o.letter.toLowerCase());
+      if(cor){cls+=" correct";mk=isMulti?"✓":o.letter;bdg=`<span class="badge c">Correct</span>`;}
+      if(sel&&!cor){cls+=" wrong";mk=isMulti?"✕":o.letter;bdg=`<span class="badge w">Your pick</span>`;}}
+    else if(sel){cls+=" sel";mk=isMulti?"✓":o.letter;}
+    const oc=showFb?"":`onclick="pick('${o.letter}')"`;
+    return `<div class="${cls}" ${oc}><div class="mk">${mk}</div><div class="tx">${o.text}</div>${bdg}</div>`;
+  }).join("");
+  let fb="";
+  if(showFb){const ok=isCorrect(q,ans);fb=`<div class="fb ${ok?'ok':'no'}"><div class="h">${ok?'✓ Correct':'✕ Incorrect'}</div><p>${q.rationale||""}</p></div>`;}
+  const flagged=state.flags.has(idx);
+  const last=state.qi===state.qorder.length-1;
+  const canCheck=state.mode==="practice"&&!state.checked.has(idx)&&answered(q,ans);
+  return `<div class="qprog"><div class="qx">Question <b>${state.qi+1}</b> of ${state.qorder.length}</div>
+      <div class="flagbtn ${flagged?'on':''}" onclick="toggleFlag()">⚑ ${flagged?'Flagged':'Flag for review'}</div></div>
+    <div class="qcard">
+      <div class="qdomain">${q.domain}</div>
+      <p class="qstem">${q.stem}</p>
+      ${isMulti?`<p class="qhint">Select all that apply.</p>`:""}
+      ${eq}
+      <div class="opts">${opts}</div>
+      ${fb}
+      ${canCheck?`<div style="margin-top:18px"><button class="btn btn-dark btn-sm" onclick="practiceCheck()">Check answer</button></div>`:""}
+    </div>
+    <div class="qnav">
+      <button class="btn" onclick="gotoQ(${state.qi-1})" ${state.qi===0?'disabled':''}>← Previous</button>
+      ${last?`<button class="btn btn-dark" onclick="openSubmit()">Review &amp; submit</button>`:`<button class="btn btn-dark" onclick="gotoQ(${state.qi+1})">Next →</button>`}
+    </div>`;
+}
+function renderSide(){
+  const d=DATA[state.day],order=state.qorder;let ans=0;
+  const cells=order.map((idx,pos)=>{
+    const a=state.answers[idx];const isA=answered(d.questions[idx],a);if(isA)ans++;
+    let cls="navcell";if(isA)cls+=" answered";if(pos===state.qi)cls+=" current";if(state.flags.has(idx))cls+=" flagged";
+    return `<div class="${cls}" onclick="gotoQ(${pos})">${pos+1}</div>`;
+  }).join("");
+  return `<div class="sidecard">
+    <h5>Question navigator</h5>
+    <div class="navgrid">${cells}</div>
+    <div class="legend">
+      <div class="lg"><span class="sq a"></span> Answered</div>
+      <div class="lg"><span class="sq"></span> Not answered</div>
+      <div class="lg"><span class="sq f"></span> Flagged for review</div>
+    </div>
+    <div class="sideprog"><b>${ans}</b> of ${order.length} answered${state.flags.size?` · <b>${state.flags.size}</b> flagged`:""}</div>
+    <button class="btn btn-dark" onclick="openSubmit()">Submit assessment</button>
+    <button class="btn btn-ghost" onclick="confirmExit()" style="margin-top:4px">Exit without saving</button>
+  </div>`;
+}
+function confirmExit(){
+  showModal(`<h3>Exit assessment?</h3><p>Your current answers will not be saved or scored.</p>
+    <div class="acts"><button class="btn" onclick="closeModal()">Keep working</button><button class="btn btn-dark" onclick="closeModal();goDash('assessments')">Exit to dashboard</button></div>`);
+}
+
+/* ----- Results / review ----- */
+function openReview(day){reviewResult=attempts[day];if(!reviewResult)return;state.view="review";state.day=day;state.reviewFilter="all";setTabs(false);setCrumb(DATA[day].theme+" · Results");render();window.scrollTo(0,0);}
+function setFilter(f){state.reviewFilter=f;render();window.scrollTo(0,0);}
+function renderReview(){
+  const res=reviewResult,d=DATA[res.day];
+  const doms=Object.entries(res.byDom).map(([k,v])=>({k,pct:Math.round(v.c/v.t*100),c:v.c,t:v.t})).sort((a,b)=>a.pct-b.pct);
+  const bars=doms.map(x=>{const cl=x.pct>=70?'ok':(x.pct>=50?'mid':'no');return `<div class="barrow"><div class="nm">${x.k}</div><div class="val">${x.pct}% <small>· ${x.c}/${x.t}</small></div><div class="track"><div class="fill ${cl}" style="width:${x.pct}%"></div></div></div>`;}).join("");
+  const incorrect=res.order.filter(idx=>!isCorrect(d.questions[idx],reAns(res.answers[idx]))).length;
+  // filtered list
+  let list=res.order.map((idx,pos)=>({idx,pos}));
+  if(state.reviewFilter==="incorrect")list=list.filter(o=>!isCorrect(d.questions[o.idx],reAns(res.answers[o.idx])));
+  if(state.reviewFilter==="flagged")list=list.filter(o=>res.flags.includes(o.idx));
+  const qhtml=list.map(({idx,pos})=>{
+    const q=d.questions[idx];const ans=reAns(res.answers[idx]);const ok=isCorrect(q,ans);const isMulti=q.type==="multi";
+    const opts=q.options.map(o=>{
+      const sel=isMulti?(ans&&ans.has(o.letter)):(ans===o.letter);
+      const cor=(isMulti?q.correct:[String(q.correct).toLowerCase()]).map(x=>x.toLowerCase()).includes(o.letter.toLowerCase());
+      let cls="o "+(isMulti?"multi":"");let bdg="";
+      if(cor){cls+=" correct";bdg=`<span class="bdg">Correct</span>`;}
+      if(sel&&!cor){cls+=" wrong";bdg=`<span class="bdg">Your pick</span>`;}
+      return `<div class="${cls}"><div class="m">${cor?(isMulti?"✓":o.letter):(sel&&!cor?(isMulti?"✕":o.letter):o.letter)}</div><div>${o.text}</div>${bdg}</div>`;
+    }).join("");
+    return `<div class="rev-q">
+      <div class="top"><span class="qnum ${ok?'c':'w'}">${ok?'✓ Correct':'✕ Incorrect'}</span><span style="font-size:11px;color:var(--muted);font-weight:600">Q${pos+1} · ${q.domain}</span>${res.flags.includes(idx)?`<span style="font-size:10px;color:var(--flag);font-weight:700">⚑ Flagged</span>`:""}</div>
+      <p class="stem">${q.stem}</p>${opts}
+      <div class="rat"><b>Rationale.</b> ${q.rationale||""}</div>
+    </div>`;
+  }).join("") || `<div class="panel"><div class="empty"><div class="big">Nothing to show</div><div class="sm">No questions match this filter.</div></div></div>`;
+  const title=res.isRetry?"Retry results":(res.full?"Assessment results":"Results");
+  return `<div class="page wrap">
+    <div class="resulthero">
+      <div class="ring" style="--sz:128px;--p:${res.pct};--c:${res.pass?'var(--ok)':'var(--no)'}"><div class="in"><div class="pc">${res.pct}%</div><div class="lb">${res.correct}/${res.total}</div></div></div>
+      <div class="meta">
+        <h2>${DATA[res.day].theme}</h2>
+        <p>${title} · ${res.full?(res.pass?"You met the 70% pass mark.":"Below the 70% pass mark — review and retry."):"Practice retry (incorrect questions only)."}</p>
+        <div class="stat">
+          <div class="b"><div class="kk">Correct</div><div class="vv">${res.correct}/${res.total}</div></div>
+          <div class="b"><div class="kk">Incorrect</div><div class="vv">${incorrect}</div></div>
+          <div class="b"><div class="kk">Flagged</div><div class="vv">${res.flags.length}</div></div>
+          <div class="b"><div class="kk">Time</div><div class="vv mono">${fmt(res.timeSec)}</div></div>
+        </div>
+      </div>
+      ${res.full?`<div class="stamp ${res.pass?'pass':'rev'}">${res.pass?'PASS':'REVIEW'}</div>`:`<div class="stamp" style="background:var(--goldbg);color:var(--gold)">RETRY</div>`}
+    </div>
+    <div class="panel"><h4>Performance by clause / domain</h4><div class="bars">${bars}</div></div>
+    <div class="filterbar">
+      <div class="fbtn ${state.reviewFilter==='all'?'active':''}" onclick="setFilter('all')">All (${res.total})</div>
+      <div class="fbtn ${state.reviewFilter==='incorrect'?'active':''}" onclick="setFilter('incorrect')">Incorrect (${incorrect})</div>
+      <div class="fbtn ${state.reviewFilter==='flagged'?'active':''}" onclick="setFilter('flagged')">Flagged (${res.flags.length})</div>
+      <div class="spacer" style="flex:1"></div>
+      ${incorrect>0?`<button class="btn btn-sm" onclick="retryIncorrect()">Retry incorrect (${incorrect})</button>`:""}
+      <button class="btn btn-sm" onclick="startExam(${res.day},'exam')">Retake</button>
+      <button class="btn btn-dark btn-sm" onclick="goDash('performance')">View analytics</button>
+    </div>
+    ${qhtml}
+  </div>`;
+}
+
+/* ----- modal ----- */
+function showModal(html){document.getElementById("modalRoot").innerHTML=`<div class="modal-ov" onclick="if(event.target===this)closeModal()"><div class="modal">${html}</div></div>`;}
+function closeModal(){document.getElementById("modalRoot").innerHTML="";}
+
+window.addEventListener("load",()=>{document.getElementById("u").focus();});
+</script>
+</body>
+</html>
